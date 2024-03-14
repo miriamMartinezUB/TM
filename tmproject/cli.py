@@ -34,12 +34,12 @@ import click
               help='p.ex. per un filtre puntual negatiu sobre la imatge.')
 @click.option("--averaging",
               help='<value>: p.ex aplicació d’un filtre convolucional d’averaging en zones de value x value.')
-@click.option("--nTiles",
+@click.option("--n-tiles",
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
-@click.option("--seekRange",
+@click.option("--seek-range",
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
-@click.option("--GOP",
+@click.option("--gop",
               help='<value> : nombre d’imatges entre dos frames de referència')
 @click.option("--quality",
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
@@ -49,9 +49,9 @@ import click
                    'implementat en funció dels diferents paràmetres de configuració.')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, nTiles, seekRange,
-         GOP, quality, batch):
-    click.echo("Hello, World!")
+def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
+         gop, quality, batch):
+        click.echo("Hello, World!")
 
 
 if __name__ == "__main__":
