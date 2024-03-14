@@ -45,3 +45,14 @@ Per tal de poder importar el paquet `tmcode0` com un mòdul de Python, es pot in
 ```bash
 pip install -e .
 ```
+## Comandes
+
+- S2: Implementació del parser d’arguments en línia de comandes. 
+    ```bash
+    python -m tmproject.cli -h
+    ```
+
+- S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG.
+    ```bash
+    python -m tmproject.cli -i data/raw/hola.zip
+    ```
