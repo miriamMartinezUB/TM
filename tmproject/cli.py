@@ -11,6 +11,8 @@ by the commands.
 """
 import click
 
+from scripts.open_zip import open_zip
+
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -51,6 +53,10 @@ import click
 @click.command()
 def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
          gop, quality, batch):
+    if input_path:
+        # Enter with -i argument
+        open_zip(input_path)
+    else:
         click.echo("Hello, World!")
 
 
