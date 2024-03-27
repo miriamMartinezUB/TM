@@ -1,6 +1,7 @@
 # tm-0-blank-project
 
-Això és un repositori base per crear repositoris per l'assignatura de Tecnologies Multimèdia de la Universitat de Barcelona. 
+Això és un repositori base per crear repositoris per l'assignatura de Tecnologies Multimèdia de la Universitat de
+Barcelona.
 
 La plantilla bàsica conté els següents fitxers:
 
@@ -22,7 +23,8 @@ tm-project-base/
 
 ## Creació d'un entorn de Python amb `pyenv`:
 
-Per tal de treballar adecuadament amb aquest repositori, es recomana la creació d'un entorn de Python amb `pyenv`. Aquesta eina permet tenir diferents versions de Python instal·lades al sistema i crear entorns virtuals: 
+Per tal de treballar adecuadament amb aquest repositori, es recomana la creació d'un entorn de Python amb `pyenv`.
+Aquesta eina permet tenir diferents versions de Python instal·lades al sistema i crear entorns virtuals:
 
 ```bash
 # Crear un entorn de Python 3.8.5
@@ -38,16 +40,17 @@ pip install --upgrade pip wheel
 pip install ipython
 ```
 
-## Instal·lació del paquet local com editable: 
+## Instal·lació del paquet local com editable:
 
-Per tal de poder importar el paquet `tmcode0` com un mòdul de Python, es pot instal·lar com a paquet editable: 
+Per tal de poder importar el paquet `tmcode0` com un mòdul de Python, es pot instal·lar com a paquet editable:
 
 ```bash
 pip install -e .
 ```
+
 ## Comandes
 
-- S2: Implementació del parser d’arguments en línia de comandes. 
+- S2: Implementació del parser d’arguments en línia de comandes.
     ```bash
     python -m tmproject.cli -h
     ```
@@ -55,4 +58,7 @@ pip install -e .
 - S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG.
     ```bash
     python -m tmproject.cli -i data/raw/hola.zip
-    ```
+    ```    
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip
+  ```
