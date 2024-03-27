@@ -53,9 +53,10 @@ from scripts.open_zip import open_zip
 @click.command()
 def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
          gop, quality, batch):
+    image_path_files = []
     if input_path:
         # Enter with -i argument
-        open_zip(input_path)
+        image_path_files = open_zip(input_path)
     else:
         click.echo("Hello, World!")
 
