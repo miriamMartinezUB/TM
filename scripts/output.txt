@@ -1,0 +1,6 @@
+Símbolo: F, Código Huffman: 0
+Símbolo: D, Código Huffman: 100
+Símbolo: B, Código Huffman: 101
+Símbolo: E, Código Huffman: 1100
+Símbolo: C, Código Huffman: 1101
+Símbolo: A, Código Huffman: 111
