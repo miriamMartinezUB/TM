@@ -62,3 +62,8 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip
   ```
+
+- Encode
+  ```bash
+  python -m tmproject.cli -e data/raw/Cubo.zip
+  ```

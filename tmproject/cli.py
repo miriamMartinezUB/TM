@@ -12,6 +12,8 @@ by the commands.
 import click
 
 from scripts.open_zip import open_zip
+from scripts.parse_images_to_jpeg import parse_images_to_jpeg
+from scripts.zip_images import zip_images
 
 
 @click.option('-i', "--input", 'input_path',
@@ -57,6 +59,12 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if input_path:
         # Enter with -i argument
         image_path_files = open_zip(input_path)
+    elif encode_arg:
+        if len(image_path_files) == 0:
+            image_path_files = open_zip(encode_arg)
+        directory_name = 'data/raw/Cubo_jpeg'
+        parse_images_to_jpeg(image_path_files, directory_name)
+        zip_images(directory_name)
     else:
         click.echo("Hello, World!")
 
