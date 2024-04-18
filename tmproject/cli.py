@@ -9,13 +9,17 @@ Also, remember you can create a tree of python submodules to organize your code,
 here and create something like a `utils.py` file to store useful functions and classes that are used repeatedly
 by the commands.
 """
-import click
+import os
 
+import click
+import cv2
+
+from scripts.average_filter import average_filter
+from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.zip_images import zip_images
-from scripts.negative_filter import  negative_filter
-from scripts.average_filter import average_filter
+
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -60,6 +64,29 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if input_path:
         # Enter with -i argument
         image_path_files = open_zip(input_path)
+        directorio_imagenes = 'data/raw/Cubo'
+
+        # Lista de nombres de archivo de las imágenes
+        nombres_archivos = sorted(os.listdir(directorio_imagenes))
+
+        # Determinar el tamaño de una imagen para configurar el tamaño del video
+        imagen_ejemplo = cv2.imread(os.path.join(directorio_imagenes, nombres_archivos[0]))
+        alto, ancho, _ = imagen_ejemplo.shape
+
+        # Configurar el objeto VideoWriter
+        ruta_video = 'video_salida.avi'  # Nombre del archivo de video de salida
+        fps = 30  # Cuadros por segundo del video
+        codec = cv2.VideoWriter_fourcc(*'XVID')  # Codec para el archivo de video (AVI)
+        video_salida = cv2.VideoWriter(ruta_video, codec, fps, (ancho, alto))
+
+        # Iterar sobre las imágenes y agregarlas al video
+        for nombre_archivo in nombres_archivos:
+            ruta_imagen = os.path.join(directorio_imagenes, nombre_archivo)
+            imagen = cv2.imread(ruta_imagen)
+            video_salida.write(imagen)
+
+        # Liberar el objeto VideoWriter
+        video_salida.release()
     elif encode_arg:
         if len(image_path_files) == 0:
             image_path_files = open_zip(encode_arg)
@@ -69,7 +96,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     elif negative:
         negative_filter(negative)
     elif averaging:
-        average_filter(averaging,3)
+        average_filter(averaging, 3)
     else:
         click.echo("Hello, World!")
 
