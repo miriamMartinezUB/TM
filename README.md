@@ -71,3 +71,7 @@ pip install -e .
   ```bash
   python -m tmproject.cli --negative data/tmp/Cubo05.png
   ```
+- Filtre mitjana
+  ```bash
+  python -m tmproject.cli --averaging data/tmp/Cubo05.png
+  ```

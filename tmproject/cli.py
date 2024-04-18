@@ -15,6 +15,7 @@ from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.zip_images import zip_images
 from scripts.negative_filter import  negative_filter
+from scripts.average_filter import average_filter
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -67,6 +68,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
         zip_images(directory_name)
     elif negative:
         negative_filter(negative)
+    elif averaging:
+        average_filter(averaging,3)
     else:
         click.echo("Hello, World!")
 
