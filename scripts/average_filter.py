@@ -26,7 +26,3 @@ def average_filter(image_path, kernel_size):
 
     plt.show()
 
-# Example usage
-image_path = 'your_image_path.jpg'  # Replace 'your_image_path.jpg' with the path to your image
-kernel_size = 3  # You can change this value to adjust the kernel size
-average_filter(image_path, kernel_size)
