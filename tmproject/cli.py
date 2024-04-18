@@ -14,7 +14,7 @@ import click
 from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.zip_images import zip_images
-
+from scripts.negative_filter import  negative_filter
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -65,6 +65,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
         directory_name = 'data/raw/Cubo_jpeg'
         parse_images_to_jpeg(image_path_files, directory_name)
         zip_images(directory_name)
+    elif negative:
+        negative_filter(negative)
     else:
         click.echo("Hello, World!")
 

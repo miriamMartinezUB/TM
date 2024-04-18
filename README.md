@@ -67,3 +67,7 @@ pip install -e .
   ```bash
   python -m tmproject.cli -e data/raw/Cubo.zip
   ```
+- Filtre negatiu
+  ```bash
+  python -m tmproject.cli --negative data/tmp/Cubo05.png
+  ```
