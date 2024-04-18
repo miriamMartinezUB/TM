@@ -63,7 +63,7 @@ pip install -e .
   python -m tmproject.cli -i data/raw/Cubo.zip
   ```
 
-- Encode
+- Zip images
   ```bash
   python -m tmproject.cli -e data/raw/Cubo.zip
   ```
@@ -74,4 +74,8 @@ pip install -e .
 - Filtre mitjana
   ```bash
   python -m tmproject.cli --averaging data/tmp/Cubo05.png
+  ```
+- Video amb fps
+  ```bash
+  python -m tmproject.cli --fps 30
   ```

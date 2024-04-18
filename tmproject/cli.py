@@ -19,6 +19,7 @@ from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.zip_images import zip_images
+from scripts.create_video_from_images import video_from_images
 
 
 @click.option('-i', "--input", 'input_path',
@@ -97,6 +98,9 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
         negative_filter(negative)
     elif averaging:
         average_filter(averaging, 3)
+    elif fps:
+        fps = float(fps)
+        video_from_images(fps)
     else:
         click.echo("Hello, World!")
 
