@@ -1,0 +1,36 @@
+import time
+
+def LZ77(string, e, d):
+    output_string = ""
+    
+    Ment = 2 ** e
+    Mdes = 2 ** d
+    
+    if(Ment > Mdes):
+        return "Error: Ventana deslizante mayor a la ventana de entrada."
+    
+    if(Mdes + Ment > len(string)):
+        return "Error: Longitudes de las ventanas deslizante y de entrada mayor que la del texto."
+    
+    mdstart = 0
+    while(mdstart + Mdes + Ment <= len(string)):
+        count = 0
+        #print(string[:mdstart], string[mdstart:mdstart + Mdes], string[mdstart + Mdes:mdstart + Mdes + Ment], string[mdstart + Mdes + Ment:])
+        while(count < Ment and string[mdstart + count] == string[mdstart + Mdes + count]):
+            #print(string[mdstart + count], string[mdstart + Mdes + count])
+            count += 1
+            #time.sleep(0.1)
+        if(count > 1):
+            output_string += string[mdstart:mdstart + Mdes] + str((bin(count), bin(Mdes)))
+            mdstart += Mdes
+        else:
+            output_string += string[mdstart]
+        #print("output_string: ", output_string)
+        mdstart += max(count, 1)
+        #time.sleep(0.2)
+    output_string += string[mdstart:]
+    return output_string
+
+for i in range(1, 5):
+    for j in range(i, 5):
+        print(LZ77("010101010011001100001111", i, j))
