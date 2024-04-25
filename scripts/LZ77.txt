@@ -1,8 +1,4 @@
-import time
-
-def LZ77(string, e, d):
-    output_string = ""
-    
+def LZ77en(string, e, d):
     Ment = 2 ** e
     Mdes = 2 ** d
     
@@ -12,25 +8,77 @@ def LZ77(string, e, d):
     if(Mdes + Ment > len(string)):
         return "Error: Longitudes de las ventanas deslizante y de entrada mayor que la del texto."
     
-    mdstart = 0
-    while(mdstart + Mdes + Ment <= len(string)):
-        count = 0
-        #print(string[:mdstart], string[mdstart:mdstart + Mdes], string[mdstart + Mdes:mdstart + Mdes + Ment], string[mdstart + Mdes + Ment:])
-        while(count < Ment and string[mdstart + count] == string[mdstart + Mdes + count]):
-            #print(string[mdstart + count], string[mdstart + Mdes + count])
-            count += 1
-            #time.sleep(0.1)
+    output_string = string[:Mdes]
+    mdstart = 1
+    if(string[mdstart] == string[mdstart + Mdes]):
+        output_string += string[mdstart:mdstart + Mdes] + "1" + str(bin(count))[3:] +  str(bin(Mdes))[3:]
+    else:
+        output_string += "0" + string[mdstart + Mdes]
+    while(mdstart + Mdes < len(string)):
+        dis = 0
+        match = False
+        while(dis < Mdes and not match):
+            count = 0
+            while(count < Ment and dis + count < Mdes and count < len(string) - mdstart - Mdes and string[mdstart + dis + count] == string[mdstart + Mdes + count]):
+                count += 1
+            match = count > 1
+            dis += 1
         if(count > 1):
-            output_string += string[mdstart:mdstart + Mdes] + str((bin(count), bin(Mdes)))
+            output_string += "1" + str(toBinary(count, e - 1)) +  str(toBinary(Mdes - dis + 1, d - 1))
             mdstart += Mdes
         else:
-            output_string += string[mdstart]
-        #print("output_string: ", output_string)
-        mdstart += max(count, 1)
-        #time.sleep(0.2)
+            output_string += "0" + string[mdstart + Mdes]
+        mdstart += max(1, count)
     output_string += string[mdstart:]
     return output_string
 
-for i in range(1, 5):
-    for j in range(i, 5):
-        print(LZ77("010101010011001100001111", i, j))
+def LZ77de(string, e, d):
+    Ment = 2 ** e
+    Mdes = 2 ** d
+    
+    if(Ment > Mdes):
+        return "Error: Ventana deslizante mayor a la ventana de entrada."
+    
+    if(Mdes + Ment > len(string)):
+        return "Error: Longitudes de las ventanas deslizante y de entrada mayor que la del texto."
+    
+    output_string = string[:Mdes]
+    
+    decoder = Mdes
+    
+    while(decoder < len(string) - Ment):
+        if(string[decoder] == '0'):
+            output_string += string[decoder + 1]
+            decoder += 2
+        else:
+            num1 = toDecimal(string[decoder:decoder + e], e - 1)
+            num2 = toDecimal(string[decoder + e + 1: decoder + e + d + 1], d - 1)
+            output_string += output_string[len(output_string) - num2: len(output_string) - num2 + num1]
+            decoder += 1 + e + d
+    output_string += string[decoder:]
+    return output_string
+
+def toBinary(i, p):
+    b = ""
+    while(p >= 0):
+        if(i >= 2 ** p):
+            b += '1'
+            i -= 2 ** p
+        else:
+            b += '0'
+        p -= 1
+    return b
+
+def toDecimal(b, p):
+    i = 0
+    while(p >= 0):
+        if(b[0] == '1'):
+            i += 2 ** p
+        p -= 1
+        b = b[1:]
+    return i
+
+datos = "1111111100100111"
+code = LZ77en(datos, 2, 3)
+decode = LZ77de(code, 2, 3)
+assert datos == decode
