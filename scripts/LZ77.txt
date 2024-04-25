@@ -1,3 +1,4 @@
+#Código codificador
 def LZ77en(string, e, d):
     Ment = 2 ** e
     Mdes = 2 ** d
@@ -32,6 +33,7 @@ def LZ77en(string, e, d):
     output_string += string[mdstart:]
     return output_string
 
+#Código descodificador
 def LZ77de(string, e, d):
     Ment = 2 ** e
     Mdes = 2 ** d
@@ -52,12 +54,17 @@ def LZ77de(string, e, d):
             decoder += 2
         else:
             num1 = toDecimal(string[decoder:decoder + e], e - 1)
+            if(num1 == 0):
+                num1 = 2 ** e
             num2 = toDecimal(string[decoder + e + 1: decoder + e + d + 1], d - 1)
+            if(num2 == 0):
+                num2 = 2 ** d
             output_string += output_string[len(output_string) - num2: len(output_string) - num2 + num1]
             decoder += 1 + e + d
     output_string += string[decoder:]
     return output_string
 
+#Para pasar números a binario (las funciones bin() y format() no daban el resultado deseado)
 def toBinary(i, p):
     b = ""
     while(p >= 0):
@@ -69,6 +76,7 @@ def toBinary(i, p):
         p -= 1
     return b
 
+#Para volver los números a decimal
 def toDecimal(b, p):
     i = 0
     while(p >= 0):
