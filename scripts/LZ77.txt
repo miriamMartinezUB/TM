@@ -1,3 +1,7 @@
+#Tecnologies Multimèdia
+#Exercici AvCont-4(a): Implementació de Compressió LZ-77
+#Diego Gelinck Rodríguez, Míriam Martínez Casanovas, Marc Lirola Tortosa
+
 #Código codificador
 def LZ77en(string, e, d):
     Ment = 2 ** e
@@ -89,4 +93,4 @@ def toDecimal(b, p):
 datos = "1111111100100111"
 code = LZ77en(datos, 2, 3)
 decode = LZ77de(code, 2, 3)
-assert datos == decode
+assert datos == decode #Como se puede comprobar, no da error.
