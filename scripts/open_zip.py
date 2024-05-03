@@ -15,7 +15,6 @@ def open_zip(input_path):
         if file_path.is_file():
             file_ext = file_path.suffix
             if file_ext == '.png':
-                print(f"Image file path '{file_path}' added")
                 image_path_files.append(file_path)
             elif file_ext == '.txt':
                 with open(file_path, 'r') as file:

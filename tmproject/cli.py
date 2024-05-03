@@ -62,47 +62,21 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
          gop, quality, batch):
     image_path_files = []
     if input_path:
-        # Enter with -i argument
         image_path_files = open_zip(input_path)
-    elif encode_arg:
-        if len(image_path_files) == 0:
-            image_path_files = open_zip(encode_arg)
-        directory_name = 'data/raw/Cubo_jpeg'
-        parse_images_to_jpeg(image_path_files, directory_name)
-        zip_images(directory_name)
-    elif negative:
+        parse_images_to_jpeg(image_path_files, output_path)
+    if negative:
         negative_filter(negative)
-    elif averaging:
+    if averaging:
         average_filter(averaging, 3)
-    elif fps:
+    if fps:
         if os.path.exists('data/raw/Cubo'):
             video_from_images(fps)
-            # directorio_imagenes = 'data/raw/Cubo'
-            #
-            # # Lista de nombres de archivo de las imágenes
-            # nombres_archivos = sorted(os.listdir(directorio_imagenes))
-            #
-            # # Determinar el tamaño de una imagen para configurar el tamaño del video
-            # imagen_ejemplo = cv2.imread(os.path.join(directorio_imagenes, nombres_archivos[0]))
-            # alto, ancho, _ = imagen_ejemplo.shape
-            #
-            # # Configurar el objeto VideoWriter
-            # ruta_video = 'video_salida.avi'  # Nombre del archivo de video de salida
-            # codec = cv2.VideoWriter_fourcc(*'XVID')  # Codec para el archivo de video (AVI)
-            # video_salida = cv2.VideoWriter(ruta_video, codec, float(fps), (ancho, alto))
-            #
-            # # Iterar sobre las imágenes y agregarlas al video
-            # for nombre_archivo in nombres_archivos:
-            #     ruta_imagen = os.path.join(directorio_imagenes, nombre_archivo)
-            #     imagen = cv2.imread(ruta_imagen)
-            #     video_salida.write(imagen)
-            #
-            # # Liberar el objeto VideoWriter
-            # video_salida.release()
         else:
-            print('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip"')
-    else:
-        click.echo("Hello, World!")
+            raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip"')
+    if output_path:
+        if len(image_path_files) == 0:
+            raise Exception("You must indicate an input path before --output")
+        zip_images(output_path)
 
 
 if __name__ == "__main__":
