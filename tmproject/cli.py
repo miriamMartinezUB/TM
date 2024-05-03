@@ -14,12 +14,11 @@ import os
 import click
 
 from scripts.average_filter import average_filter
-from scripts.create_video_from_images import video_from_images
 from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
-from scripts.show_images import show_images
 from scripts.zip_images import zip_images
+from scripts.play_images import show_images_as_video
 
 
 @click.option('-i', "--input", 'input_path',
@@ -36,7 +35,7 @@ from scripts.zip_images import zip_images
               help='Argument que indica que s’haurà d’aplicar la descodificació sobre el conjunt d’imatges d’input '
                    'provinents d’un fitxer en format propi i reproduir el conjunt d’imatges descodificat (output). '
                    'Per una descripció detallada del que ha de realitzar, vegi l’apartat --Decode.')
-@click.option("--fps",
+@click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
 @click.option("--binarization",
               help='<value> : p.ex. per un filtre puntual de binarització utilitzant el valor llindar indicat.')
@@ -69,17 +68,19 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if averaging:
         average_filter(averaging, 3)
     if fps:
-        if os.path.exists('data/raw/Cubo'):
-            video_from_images(fps)
-        else:
-            raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip"')
-    show_images(image_path_files, fps=30 if fps is None else fps)
+        if not os.path.exists('data/raw/Cubo'):
+            raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
+
     if output_path:
         if len(image_path_files) == 0:
             raise Exception("You must indicate an input path before --output")
         parse_images_to_jpeg(image_path_files, output_path)
         zip_images(output_path)
+    else: show_images_as_video(image_path_files,fps)
 
 
 if __name__ == "__main__":
     main()
+    # tqdm libreria np.dot, kernel imparells, mk2, si hay output no mostrar el reproductor nos olvidamos de bach
+    # visualitzacio no te sentit dins del encode i el decode, definir el kernel i ja esta no fer tota la combulucio opencv.com1
+    # ffplay per enseñar  el video

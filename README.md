@@ -62,6 +62,10 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip
   ```
+- Show Video
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --fps 50
+  ```
 
 - Zip images
   ```bash
@@ -80,5 +84,5 @@ pip install -e .
   ```
 - Video amb fps
   ```bash
-  python -m tmproject.cli --fps 30
+  python -m tmproject.cli --fps 50
   ```
