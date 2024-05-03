@@ -3,7 +3,7 @@ import matplotlib.animation as animation
 from PIL import Image
 
 
-def show_images_as_video(image_path):
+def show_images_as_video(image_path,fps):
 
     fig = plt.figure()
 
@@ -11,7 +11,7 @@ def show_images_as_video(image_path):
     for image in image_path:
         img = Image.open(image)
         ims.append([plt.imshow(img, animated=True)])
-
-    ani = animation.ArtistAnimation(fig, ims, interval=100, blit=True, repeat_delay=1)
+    interval = 1000 / fps
+    ani = animation.ArtistAnimation(fig, ims, interval=interval, blit=True, repeat_delay=0)
     plt.axis('off')
     plt.show()

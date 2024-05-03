@@ -63,7 +63,6 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     image_path_files = []
     if input_path:
         image_path_files = open_zip(input_path)
-        show_images_as_video(image_path_files)
     if negative:
         negative_filter(negative)
     if averaging:
@@ -71,11 +70,13 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
+
     if output_path:
         if len(image_path_files) == 0:
             raise Exception("You must indicate an input path before --output")
         parse_images_to_jpeg(image_path_files, output_path)
         zip_images(output_path)
+    else: show_images_as_video(image_path_files,fps)
 
 
 if __name__ == "__main__":
