@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 from zipfile import ZipFile
-from PIL import Image
+
+from skimage import io
 
 
 def open_zip(input_path):
@@ -27,6 +28,6 @@ def open_zip(input_path):
                 raise Exception('We only support txt and png extensions, check the content on your zip')
     image_path_files.sort(key=lambda x: os.path.basename(x))
     images = []
-    for image in image_path_files:
-        images.append(Image.open(image))
+    for image_path in image_path_files:
+        images.append(io.imread(image_path))
     return images
