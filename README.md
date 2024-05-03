@@ -82,6 +82,10 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "grayscale"
   ```
+- Filtre contrast_stretching
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "contrast_stretching"
+  ```
 - Filtre binarization
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "binarization"

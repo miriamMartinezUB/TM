@@ -15,6 +15,7 @@ import click
 
 from scripts.average_filter import average_filter
 from scripts.binarization_filter import binarization_filter
+from scripts.contrast_stretching import contrast_stretching
 from scripts.grayscale_filter import grayscale_filter
 from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
@@ -59,6 +60,7 @@ from scripts.zip_images import zip_images
 def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_range,
          gop, quality, filters, filter_conv):
     images = []
+    cmap = None
     if input_path:
         images = open_zip(input_path)
     if fps:
@@ -72,6 +74,10 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             images = binarization_filter(images, threshold=70 if argument is None else argument)
         elif filter_name == 'grayscale':
             images = grayscale_filter(images)
+            cmap = "gray"
+        elif filter_name == 'contrast_stretching':
+            images = contrast_stretching(images)
+            cmap = "gray"
 
     for f in filter_conv:
         filter_name, argument = parse_filter(f)
@@ -79,6 +85,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             images = average_filter(images, argument)
         if filter_name == 'sobel':
             images = sobel_filter(images)
+            cmap = "gray"
 
     if output_path:
         if len(images) == 0:
@@ -86,7 +93,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         parse_images_to_jpeg(images, output_path)
         zip_images(output_path)
     else:
-        show_images_as_video(images, fps)
+        show_images_as_video(images, fps, cmap)
 
 
 if __name__ == "__main__":
