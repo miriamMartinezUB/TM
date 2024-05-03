@@ -78,6 +78,10 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative"
   ```
+- Filtre sobel
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative"
+  ```
 - Filtre mitjana
   ```bash
   python -m tmproject.cli --averaging data/tmp/Cubo05.png

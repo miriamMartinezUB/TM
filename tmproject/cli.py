@@ -21,6 +21,7 @@ from scripts.open_zip import open_zip
 from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
+from scripts.sobel_filter import sobel_filter
 from scripts.zip_images import zip_images
 
 
@@ -76,6 +77,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         filter_name, argument = parse_filter(f)
         if filter_name == 'averaging':
             average_filter(argument, 3)
+        if filter_name == 'sobel':
+            sobel_filter(images)
 
     if output_path:
         if len(images) == 0:
