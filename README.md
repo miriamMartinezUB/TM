@@ -76,7 +76,7 @@ pip install -e .
   ```
 - Filtre negatiu
   ```bash
-  python -m tmproject.cli --negative data/tmp/Cubo05.png
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative"
   ```
 - Filtre mitjana
   ```bash

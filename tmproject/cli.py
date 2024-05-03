@@ -40,12 +40,6 @@ from scripts.zip_images import zip_images
                    'Per una descripció detallada del que ha de realitzar, vegi l’apartat --Decode.')
 @click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
-@click.option("--binarization",
-              help='<value> : p.ex. per un filtre puntual de binarització utilitzant el valor llindar indicat.')
-@click.option("--negative",
-              help='p.ex. per un filtre puntual negatiu sobre la imatge.')
-@click.option("--averaging",
-              help='<value>: p.ex aplicació d’un filtre convolucional d’averaging en zones de value x value.')
 @click.option("--n-tiles",
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
@@ -61,28 +55,27 @@ from scripts.zip_images import zip_images
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
+def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_range,
          gop, quality, filters, filter_conv):
     images = []
     if input_path:
         images = open_zip(input_path)
-    if negative:
-        images = negative_filter(images)
-    if averaging:
-        average_filter(averaging, 3)
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
     for f in filters:
         filter_name, argument = parse_filter(f)
+        print(f"filter_name {filter_name}")
         if filter_name == 'negative':
-            negative_filter(argument)
+            images = negative_filter(images)
+            print("negative_filter applied")
         elif filter_name == 'binarization':
-            binarization_filter(argument)
+            images = binarization_filter(images)
         elif filter_name == 'grayscale':
-            grayscale_filter(argument)
+            images = grayscale_filter(images)
 
     for f in filter_conv:
+        print("filter_conv")
         filter_name, argument = parse_filter(f)
         if filter_name == 'averaging':
             average_filter(argument, 3)
@@ -93,7 +86,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
         parse_images_to_jpeg(images, output_path)
         zip_images(output_path)
     else:
-        show_images_as_video(images,fps)
+        print("show_images_as_video")
+        show_images_as_video(images, fps)
 
 
 if __name__ == "__main__":
