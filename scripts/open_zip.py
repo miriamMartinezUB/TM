@@ -15,7 +15,7 @@ def open_zip(input_path):
         if file_path.is_file():
             file_ext = file_path.suffix
             if file_ext == '.png':
-                image_path_files.append(file_path)
+                image_path_files.append(str(file_path))
             elif file_ext == '.txt':
                 with open(file_path, 'r') as file:
                     content = file.read()

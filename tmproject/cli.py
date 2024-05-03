@@ -18,6 +18,7 @@ from scripts.create_video_from_images import video_from_images
 from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
+from scripts.show_images import show_images
 from scripts.zip_images import zip_images
 
 
@@ -63,7 +64,6 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     image_path_files = []
     if input_path:
         image_path_files = open_zip(input_path)
-        parse_images_to_jpeg(image_path_files, output_path)
     if negative:
         negative_filter(negative)
     if averaging:
@@ -73,9 +73,11 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
             video_from_images(fps)
         else:
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip"')
+    show_images(image_path_files, fps=30 if fps is None else fps)
     if output_path:
         if len(image_path_files) == 0:
             raise Exception("You must indicate an input path before --output")
+        parse_images_to_jpeg(image_path_files, output_path)
         zip_images(output_path)
 
 
