@@ -65,7 +65,10 @@ pip install -e .
 
 - Zip images
   ```bash
-  python -m tmproject.cli -e data/raw/Cubo.zip
+  python -m tmproject.cli -i data/raw/Cubo.zip -o data/raw/Cubo_jpeg.zip
+  ```
+  ```bash
+  python -m tmproject.cli --input data/raw/Cubo.zip --output data/raw/Cubo_jpeg.zip
   ```
 - Filtre negatiu
   ```bash
