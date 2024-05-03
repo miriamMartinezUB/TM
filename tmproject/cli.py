@@ -14,11 +14,14 @@ import os
 import click
 
 from scripts.average_filter import average_filter
+from scripts.binarization_filter import binarization_filter
+from scripts.grayscale_filter import grayscale_filter
 from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
+from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
-from scripts.zip_images import zip_images
 from scripts.play_images import show_images_as_video
+from scripts.zip_images import zip_images
 
 
 @click.option('-i', "--input", 'input_path',
@@ -52,14 +55,14 @@ from scripts.play_images import show_images_as_video
               help='<value> : nombre d’imatges entre dos frames de referència')
 @click.option("--quality",
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
-@click.option('-b', "--batch",
-              help='en aquest mode no s’obrirà cap finestra del reproductor de vídeo. Ha de permetre executar el '
-                   'còdec a través de Shell scripts per avaluar de forma automatitzada el rendiment de l’algorisme '
-                   'implementat en funció dels diferents paràmetres de configuració.')
+@click.option('-f', "--filter", 'filters', multiple=True,
+              help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
+@click.option('--filter-conv', 'filter_conv', multiple=True,
+              help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.help_option('--help', '-h')
 @click.command()
 def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
-         gop, quality, batch):
+         gop, quality, filters, filter_conv):
     image_path_files = []
     if input_path:
         image_path_files = open_zip(input_path)
@@ -70,17 +73,28 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
+    for f in filters:
+        filter_name, argument = parse_filter(f)
+        if filter_name == 'negative':
+            negative_filter(argument)
+        elif filter_name == 'binarization':
+            binarization_filter(argument)
+        elif filter_name == 'grayscale':
+            grayscale_filter(argument)
+
+    for f in filter_conv:
+        filter_name, argument = parse_filter(f)
+        if filter_name == 'averaging':
+            average_filter(argument, 3)
 
     if output_path:
         if len(image_path_files) == 0:
             raise Exception("You must indicate an input path before --output")
         parse_images_to_jpeg(image_path_files, output_path)
         zip_images(output_path)
-    else: show_images_as_video(image_path_files,fps)
+    else:
+        show_images_as_video(image_path_files, fps)
 
 
 if __name__ == "__main__":
     main()
-    # tqdm libreria np.dot, kernel imparells, mk2, si hay output no mostrar el reproductor nos olvidamos de bach
-    # visualitzacio no te sentit dins del encode i el decode, definir el kernel i ja esta no fer tota la combulucio opencv.com1
-    # ffplay per enseñar  el video
