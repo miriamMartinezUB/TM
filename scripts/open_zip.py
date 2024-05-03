@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -23,5 +24,5 @@ def open_zip(input_path):
                     print(content)
             else:
                 raise Exception('We only support txt and png extensions, check the content on your zip')
-
+    image_path_files.sort(key=lambda x: os.path.basename(x))
     return image_path_files

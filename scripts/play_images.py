@@ -1,28 +1,17 @@
-import tkinter as tk
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from PIL import Image
 
-from PIL import Image, ImageTk
 
+def show_images_as_video(image_path):
 
-def play_images(image_paths, fps):
-    root = tk.Tk()
-    root.title("Video")
+    fig = plt.figure()
 
-    delay = int(1000 / fps)  # Convertir fps a milisegundos
+    ims = []
+    for image in image_path:
+        img = Image.open(image)
+        ims.append([plt.imshow(img, animated=True)])
 
-    def update_image():
-        nonlocal image_label, current_image_index
-        image_path = image_paths[current_image_index]
-        image = Image.open(image_path)
-        photo = ImageTk.PhotoImage(image)
-        image_label.configure(image=photo)
-        image_label.image = photo
-        current_image_index = (current_image_index + 1) % len(image_paths)
-        root.after(delay, update_image)
-
-    current_image_index = 0
-    image_label = tk.Label(root)
-    image_label.pack()
-
-    update_image()
-
-    root.mainloop()
+    ani = animation.ArtistAnimation(fig, ims, interval=100, blit=True, repeat_delay=1)
+    plt.axis('off')
+    plt.show()
