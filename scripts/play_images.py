@@ -7,11 +7,11 @@ def show_images_as_video(image_path, fps, cmap):
 
     ims = []
     for image in image_path:
-        ims.append([plt.imshow(image, animated=True)])
+        if cmap == 'gray':
+            ims.append([plt.imshow(image, cmap='gray', animated=True)])
+        else:
+            ims.append([plt.imshow(image, animated=True)])
     interval = 1000 / fps
     ani = animation.ArtistAnimation(fig, ims, interval=interval, blit=True, repeat_delay=0)
     plt.axis('off')
-    if cmap == 'gray':
-        plt.show(cmap='gray')
-    else:
-        plt.show()
+    plt.show()

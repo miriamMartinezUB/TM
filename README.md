@@ -78,6 +78,10 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative"
   ```
+- Filtre sepia
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "sepia"
+  ```
 - Filtre grayscale
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "grayscale"
@@ -96,8 +100,4 @@ pip install -e .
 - Filtre sobel
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "sobel"
-  ```
-- Filtre averaging
-  ```bash
-  python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "averaging"
   ```

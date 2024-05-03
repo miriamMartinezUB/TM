@@ -24,7 +24,7 @@ from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
 from scripts.sobel_filter import sobel_filter
 from scripts.zip_images import zip_images
-
+from scripts.sepia_filter import sepia_filter
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -70,6 +70,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         filter_name, argument = parse_filter(f)
         if filter_name == 'negative':
             images = negative_filter(images)
+        elif filter_name == 'sepia':
+            images = sepia_filter(images)
         elif filter_name == 'binarization':
             images = binarization_filter(images, threshold=70 if argument is None else argument)
         elif filter_name == 'grayscale':
@@ -77,12 +79,11 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             cmap = "gray"
         elif filter_name == 'contrast_stretching':
             images = contrast_stretching(images)
-            cmap = "gray"
+
+
 
     for f in filter_conv:
         filter_name, argument = parse_filter(f)
-        if filter_name == 'averaging':
-            images = average_filter(images, 3 if argument is None else argument)
         if filter_name == 'sobel':
             images = sobel_filter(images)
             cmap = "gray"
