@@ -19,6 +19,7 @@ from scripts.open_zip import open_zip
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.zip_images import zip_images
 from scripts.play_images import show_images_as_video
+from scripts.binarization_filter import binarization_filter
 
 
 @click.option('-i', "--input", 'input_path',
@@ -66,7 +67,9 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
     if negative:
         images = negative_filter(images)
     if averaging:
-        average_filter(averaging, 3)
+        images = average_filter(averaging)
+    if binarization:
+        images = binarization_filter(images)
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
