@@ -65,17 +65,14 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
     for f in filters:
         filter_name, argument = parse_filter(f)
-        print(f"filter_name {filter_name}")
         if filter_name == 'negative':
             images = negative_filter(images)
-            print("negative_filter applied")
         elif filter_name == 'binarization':
             images = binarization_filter(images)
         elif filter_name == 'grayscale':
             images = grayscale_filter(images)
 
     for f in filter_conv:
-        print("filter_conv")
         filter_name, argument = parse_filter(f)
         if filter_name == 'averaging':
             average_filter(argument, 3)
@@ -86,9 +83,11 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         parse_images_to_jpeg(images, output_path)
         zip_images(output_path)
     else:
-        print("show_images_as_video")
         show_images_as_video(images, fps)
 
 
 if __name__ == "__main__":
     main()
+    # tqdm libreria np.dot, kernel imparells, mk2, si hay output no mostrar el reproductor nos olvidamos de bach
+    # visualitzacio no te sentit dins del encode i el decode, definir el kernel i ja esta no fer tota la combulucio opencv.com1
+    # ffplay per enseñar  el video
