@@ -1,10 +1,9 @@
 import skimage
-
 from skimage.color import rgb2gray
 from skimage.util import img_as_float
 
 
-def sobel_filter(images, kernel):
+def sobel_filter(images):
     sobel_images = []
     for img in images:
         img_f = rgb2gray(img_as_float(img))
