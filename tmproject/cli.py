@@ -60,11 +60,11 @@ from scripts.play_images import show_images_as_video
 @click.command()
 def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
          gop, quality, batch):
-    image_path_files = []
+    images = []
     if input_path:
-        image_path_files = open_zip(input_path)
+        images = open_zip(input_path)
     if negative:
-        negative_filter(negative)
+        images = negative_filter(images)
     if averaging:
         average_filter(averaging, 3)
     if fps:
@@ -72,11 +72,11 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, neg
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
 
     if output_path:
-        if len(image_path_files) == 0:
+        if len(images) == 0:
             raise Exception("You must indicate an input path before --output")
-        parse_images_to_jpeg(image_path_files, output_path)
+        parse_images_to_jpeg(images, output_path)
         zip_images(output_path)
-    else: show_images_as_video(image_path_files,fps)
+    else: show_images_as_video(images,fps)
 
 
 if __name__ == "__main__":
