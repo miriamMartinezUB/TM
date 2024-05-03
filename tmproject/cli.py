@@ -69,7 +69,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         if filter_name == 'negative':
             images = negative_filter(images)
         elif filter_name == 'binarization':
-            images = binarization_filter(images, threshold=argument)
+            images = binarization_filter(images, threshold=70 if argument is None else argument)
         elif filter_name == 'grayscale':
             images = grayscale_filter(images)
 
