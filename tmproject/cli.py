@@ -14,11 +14,14 @@ import os
 import click
 
 from scripts.average_filter import average_filter
+from scripts.binarization_filter import binarization_filter
+from scripts.grayscale_filter import grayscale_filter
 from scripts.negative_filter import negative_filter
 from scripts.open_zip import open_zip
+from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
-from scripts.zip_images import zip_images
 from scripts.play_images import show_images_as_video
+from scripts.zip_images import zip_images
 
 
 @click.option('-i', "--input", 'input_path',
@@ -37,12 +40,6 @@ from scripts.play_images import show_images_as_video
                    'Per una descripció detallada del que ha de realitzar, vegi l’apartat --Decode.')
 @click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
-@click.option("--binarization",
-              help='<value> : p.ex. per un filtre puntual de binarització utilitzant el valor llindar indicat.')
-@click.option("--negative",
-              help='p.ex. per un filtre puntual negatiu sobre la imatge.')
-@click.option("--averaging",
-              help='<value>: p.ex aplicació d’un filtre convolucional d’averaging en zones de value x value.')
 @click.option("--n-tiles",
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
@@ -52,31 +49,41 @@ from scripts.play_images import show_images_as_video
               help='<value> : nombre d’imatges entre dos frames de referència')
 @click.option("--quality",
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
-@click.option('-b', "--batch",
-              help='en aquest mode no s’obrirà cap finestra del reproductor de vídeo. Ha de permetre executar el '
-                   'còdec a través de Shell scripts per avaluar de forma automatitzada el rendiment de l’algorisme '
-                   'implementat en funció dels diferents paràmetres de configuració.')
+@click.option('-f', "--filter", 'filters', multiple=True,
+              help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
+@click.option('--filter-conv', 'filter_conv', multiple=True,
+              help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, encode_arg, decode_arg, fps, binarization, negative, averaging, n_tiles, seek_range,
-         gop, quality, batch):
-    image_path_files = []
+def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_range,
+         gop, quality, filters, filter_conv):
+    images = []
     if input_path:
-        image_path_files = open_zip(input_path)
-    if negative:
-        negative_filter(negative)
-    if averaging:
-        average_filter(averaging, 3)
+        images = open_zip(input_path)
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
+    for f in filters:
+        filter_name, argument = parse_filter(f)
+        if filter_name == 'negative':
+            images = negative_filter(images)
+        elif filter_name == 'binarization':
+            images = binarization_filter(images)
+        elif filter_name == 'grayscale':
+            images = grayscale_filter(images)
+
+    for f in filter_conv:
+        filter_name, argument = parse_filter(f)
+        if filter_name == 'averaging':
+            average_filter(argument, 3)
 
     if output_path:
-        if len(image_path_files) == 0:
+        if len(images) == 0:
             raise Exception("You must indicate an input path before --output")
-        parse_images_to_jpeg(image_path_files, output_path)
+        parse_images_to_jpeg(images, output_path)
         zip_images(output_path)
-    else: show_images_as_video(image_path_files,fps)
+    else:
+        show_images_as_video(images, fps)
 
 
 if __name__ == "__main__":
