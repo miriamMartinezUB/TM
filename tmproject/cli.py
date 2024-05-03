@@ -82,7 +82,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
     for f in filter_conv:
         filter_name, argument = parse_filter(f)
         if filter_name == 'averaging':
-            images = average_filter(images, argument)
+            images = average_filter(images, 3 if argument is None else argument)
         if filter_name == 'sobel':
             images = sobel_filter(images)
             cmap = "gray"
