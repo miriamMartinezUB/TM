@@ -82,15 +82,14 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "binarization"
   ```
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "binarization[40]"
+  ```
 - Filtre sobel
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "sobel"
   ```
-- Filtre mitjana
+- Filtre avraging
   ```bash
-  python -m tmproject.cli --averaging data/tmp/Cubo05.png
-  ```
-- Video amb fps
-  ```bash
-  python -m tmproject.cli --fps 50
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "averaging"
   ```

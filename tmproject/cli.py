@@ -69,7 +69,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         if filter_name == 'negative':
             images = negative_filter(images)
         elif filter_name == 'binarization':
-            images = binarization_filter(images)
+            images = binarization_filter(images, threshold=argument)
         elif filter_name == 'grayscale':
             images = grayscale_filter(images)
 
@@ -91,6 +91,3 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
 
 if __name__ == "__main__":
     main()
-    # tqdm libreria np.dot, kernel imparells, mk2, si hay output no mostrar el reproductor nos olvidamos de bach
-    # visualitzacio no te sentit dins del encode i el decode, definir el kernel i ja esta no fer tota la combulucio opencv.com1
-    # ffplay per enseñar  el video
