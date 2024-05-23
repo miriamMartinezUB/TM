@@ -13,21 +13,21 @@ import os
 
 import click
 
-from scripts.average_filter import average_filter
-from scripts.binarization_filter import binarization_filter
-from scripts.blur_filter import blur_filter
-from scripts.contrast_stretching import contrast_stretching
-from scripts.emboss_filter import emboss_filter
-from scripts.gradient_filter import gradient_filter
-from scripts.grayscale_filter import grayscale_filter
-from scripts.negative_filter import negative_filter
+from scripts.filters.binarization_filter import binarization_filter
+from scripts.filters.contrast_stretching import contrast_stretching
+from scripts.filters.grayscale_filter import grayscale_filter
+from scripts.filters.negative_filter import negative_filter
+from scripts.filters.sepia_filter import sepia_filter
+from scripts.filters_conv.average_filter import average_filter
+from scripts.filters_conv.blur_filter import blur_filter
+from scripts.filters_conv.emboss_filter import emboss_filter
+from scripts.filters_conv.gradient_filter import gradient_filter
+from scripts.filters_conv.sharpen_filter import sharpen_filter
+from scripts.filters_conv.sobel_filter import sobel_filter
 from scripts.open_zip import open_zip
 from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
-from scripts.sepia_filter import sepia_filter
-from scripts.sharpen_filter import sharpen_filter
-from scripts.sobel_filter import sobel_filter
 from scripts.zip_images import zip_images
 
 
