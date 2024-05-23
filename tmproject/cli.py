@@ -12,6 +12,8 @@ by the commands.
 
 import click
 
+from scripts.create_video_from_images import video_from_images
+from scripts.enconde import encode
 from scripts.filters.binarization_filter import binarization_filter
 from scripts.filters.contrast_stretching import contrast_stretching
 from scripts.filters.grayscale_filter import grayscale_filter
@@ -34,15 +36,6 @@ from scripts.zip_images import zip_images
 @click.option('-o', "--output", 'output_path',
               help='<path to file> : Nom del fitxer en format propi amb la seqüència d’imatges de sortida i la '
                    'informació necessària per la descodificació.')
-@click.option('-e', "--encode", 'encode_arg',
-              help='Argument que indica que s’haurà d’aplicar la codificació sobre el conjunt d’imatges d’input i '
-                   'guardar el resultat al lloc indicat per output. En acabar, s’ha de procedir a reproduir el '
-                   'conjunt d’imatges sense codificar (input). Per una descripció detallada del que ha de realitzar, '
-                   'vegi l’apartat --Encode.')
-@click.option('-d', "--decode", 'decode_arg',
-              help='Argument que indica que s’haurà d’aplicar la descodificació sobre el conjunt d’imatges d’input '
-                   'provinents d’un fitxer en format propi i reproduir el conjunt d’imatges descodificat (output). '
-                   'Per una descripció detallada del que ha de realitzar, vegi l’apartat --Decode.')
 @click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
 @click.option("--n-tiles",
@@ -60,14 +53,18 @@ from scripts.zip_images import zip_images
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_range,
-         gop, quality, filters, filter_conv):
-    images = []
-    cmap = None
-    if input_path:
-        images = open_zip(input_path)
+def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv):
+    _images = []
+    _cmap = None
+    _fps = 30 if fps is None else fps
+    _gop = 10 if gop is None else gop
+    _n_tiles = 4 if n_tiles is None else n_tiles
+    _quality = 1e5 if quality is None else quality
 
-    if len(images) == 0:
+    if input_path:
+        _images = open_zip(input_path)
+
+    if len(_images) == 0:
         raise Exception('You must run the next command before continue "python -m tmproject.cli -i data/raw/Cubo.zip"')
 
     if filters:
@@ -76,16 +73,16 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             filter_name, argument = parse_filter(f)
             filter_name = filter_name.strip()
             if filter_name == 'negative':
-                images = negative_filter(images)
+                _images = negative_filter(_images)
             elif filter_name == 'sepia':
-                images = sepia_filter(images)
+                _images = sepia_filter(_images)
             elif filter_name == 'binarization':
-                images = binarization_filter(images, threshold=70 if argument is None else argument)
+                _images = binarization_filter(_images, threshold=70 if argument is None else argument)
             elif filter_name == 'grayscale':
-                images = grayscale_filter(images)
-                cmap = "gray"
+                _images = grayscale_filter(_images)
+                _cmap = "gray"
             elif filter_name == 'contrast_stretching':
-                images = contrast_stretching(images)
+                _images = contrast_stretching(_images)
             else:
                 raise Exception(f"We don't support {filter_name} filter")
 
@@ -94,25 +91,27 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
         for f in filter_conv_list:
             filter_name, argument = parse_filter(f)
             if filter_name == 'sobel':
-                images = sobel_filter(images)
-                cmap = "gray"
+                _images = sobel_filter(_images)
+                _cmap = "gray"
             elif filter_name == 'averaging':
-                images = average_filter(images)
+                _images = average_filter(_images)
             elif filter_name == 'gradient':
-                images = gradient_filter(images)
+                _images = gradient_filter(_images)
             elif filter_name == 'emboss':
-                images = emboss_filter(images)
+                _images = emboss_filter(_images)
             elif filter_name == 'sharpen':
-                images = sharpen_filter(images)
+                _images = sharpen_filter(_images)
             elif filter_name == 'blur':
-                images = blur_filter(images)
+                _images = blur_filter(_images)
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 
+    encode(_images, _gop, _n_tiles, _quality)
+    video_from_images(_fps)
     if output_path:
-        zip_images(output_path, images)
+        zip_images(output_path, _images)
     else:
-        show_images_as_video(images, fps, cmap)
+        show_images_as_video(_images, _fps, _cmap)
 
 
 if __name__ == "__main__":
