@@ -15,6 +15,7 @@ import click
 
 from scripts.average_filter import average_filter
 from scripts.binarization_filter import binarization_filter
+from scripts.blur_filter import blur_filter
 from scripts.contrast_stretching import contrast_stretching
 from scripts.emboss_filter import emboss_filter
 from scripts.gradient_filter import gradient_filter
@@ -96,13 +97,15 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
                 images = sobel_filter(images)
                 cmap = "gray"
             elif filter_name == 'averaging':
-                images = average_filter(images, kernel_size=3 if argument is None else int(argument))
+                images = average_filter(images)
             elif filter_name == 'gradient':
                 images = gradient_filter(images)
             elif filter_name == 'emboss':
-                images = emboss_filter(images, kernel_size=3 if argument is None else int(argument))
+                images = emboss_filter(images)
             elif filter_name == 'sharpen':
                 images = sharpen_filter(images)
+            elif filter_name == 'blur':
+                images = blur_filter(images)
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 

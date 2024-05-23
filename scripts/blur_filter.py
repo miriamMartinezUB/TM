@@ -4,13 +4,13 @@ from skimage.color import rgb2gray
 from skimage.util import img_as_float
 
 
-def average_filter(images):
-    avg_images = []
+def blur_filter(images):
+    blur_images = []
 
     # Definir el kernel
-    kernel = 1 / 9 * np.array([[1, 1, 1],
-                               [1, 1, 1],
-                               [1, 1, 1]])
+    kernel = np.array([[0, 0.2, 0],
+                       [0.2, 0.2, 0.2],
+                       [0, 0.2, 0]])
 
     for image in images:
         if len(image.shape) == 3:
@@ -21,6 +21,6 @@ def average_filter(images):
         # Aplicar la convolución 2D con el kernel
         filtered_img = convolve2d(image_float, kernel, mode='same', boundary='symm')
 
-        avg_images.append(filtered_img)
+        blur_images.append(filtered_img)
 
-    return avg_images
+    return blur_images

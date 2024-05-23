@@ -14,9 +14,9 @@ def sharpen_filter(images):
         image_float = img_as_float(image)
 
         # Definir el kernel para el filtro de sharpen
-        kernel = np.array([[0, -1, 0],
-                           [-1, 5, -1],
-                           [0, -1, 0]])
+        kernel = np.array([[-1, -1, -1],
+                           [-1, 8, -1],
+                           [-1, -1, -1]])
 
         # Aplicar convolución 2D con el kernel
         sharpened_image = convolve2d(image_float, kernel, mode='same', boundary='symm')
