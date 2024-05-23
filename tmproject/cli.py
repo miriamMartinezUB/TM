@@ -22,9 +22,10 @@ from scripts.open_zip import open_zip
 from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
+from scripts.sepia_filter import sepia_filter
 from scripts.sobel_filter import sobel_filter
 from scripts.zip_images import zip_images
-from scripts.sepia_filter import sepia_filter
+
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -66,27 +67,35 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
     if fps:
         if not os.path.exists('data/raw/Cubo'):
             raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
-    for f in filters:
-        filter_name, argument = parse_filter(f)
-        if filter_name == 'negative':
-            images = negative_filter(images)
-        elif filter_name == 'sepia':
-            images = sepia_filter(images)
-        elif filter_name == 'binarization':
-            images = binarization_filter(images, threshold=70 if argument is None else argument)
-        elif filter_name == 'grayscale':
-            images = grayscale_filter(images)
-            cmap = "gray"
-        elif filter_name == 'contrast_stretching':
-            images = contrast_stretching(images)
-
-
-
-    for f in filter_conv:
-        filter_name, argument = parse_filter(f)
-        if filter_name == 'sobel':
-            images = sobel_filter(images)
-            cmap = "gray"
+    if filters:
+        filter_list = filters[0].split(',')
+        for f in filter_list:
+            filter_name, argument = parse_filter(f)
+            filter_name = filter_name.strip()
+            if filter_name == 'negative':
+                images = negative_filter(images)
+            elif filter_name == 'sepia':
+                images = sepia_filter(images)
+            elif filter_name == 'binarization':
+                images = binarization_filter(images, threshold=70 if argument is None else argument)
+            elif filter_name == 'grayscale':
+                images = grayscale_filter(images)
+                cmap = "gray"
+            elif filter_name == 'contrast_stretching':
+                images = contrast_stretching(images)
+            else:
+                raise Exception(f"We don't support {filter_name} filter")
+    if filter_conv:
+        filter_conv_list = filter_conv[0].split(',')
+        for f in filter_conv_list:
+            filter_name, argument = parse_filter(f)
+            if filter_name == 'sobel':
+                images = sobel_filter(images)
+                cmap = "gray"
+            if filter_name == 'averaging':
+                images = average_filter(images, kernel_size=3 if argument is None else int(argument))
+            else:
+                raise Exception(f"We don't support {filter_name} filter conv")
 
     if output_path:
         if len(images) == 0:

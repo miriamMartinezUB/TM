@@ -97,6 +97,16 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "binarization[40]"
   ```
+- Multiples filters
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative, binarization"
+  ```
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative, binarization[90]"
+  ```
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "binarization" --filter-conv "sobel"
+  ```
 - Filtre sobel
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "sobel"
