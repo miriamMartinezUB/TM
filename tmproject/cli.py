@@ -13,6 +13,7 @@ import os
 
 import click
 
+from scripts.average_filter import average_filter
 from scripts.binarization_filter import binarization_filter
 from scripts.contrast_stretching import contrast_stretching
 from scripts.grayscale_filter import grayscale_filter
@@ -91,6 +92,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             if filter_name == 'sobel':
                 images = sobel_filter(images)
                 cmap = "gray"
+            if filter_name == 'averaging':
+                images = average_filter(images, kernel_size=3 if argument is None else int(argument))
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 
