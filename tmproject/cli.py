@@ -25,6 +25,7 @@ from scripts.parse_filter import parse_filter
 from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
 from scripts.sepia_filter import sepia_filter
+from scripts.sharpen_filter import sharpen_filter
 from scripts.sobel_filter import sobel_filter
 from scripts.zip_images import zip_images
 
@@ -100,6 +101,8 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
                 images = gradient_filter(images)
             elif filter_name == 'emboss':
                 images = emboss_filter(images)
+            elif filter_name == 'sharpen':
+                images = sharpen_filter(images)
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 
