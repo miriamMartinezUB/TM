@@ -9,7 +9,6 @@ Also, remember you can create a tree of python submodules to organize your code,
 here and create something like a `utils.py` file to store useful functions and classes that are used repeatedly
 by the commands.
 """
-import os
 
 import click
 
@@ -69,8 +68,9 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
     if input_path:
         images = open_zip(input_path)
     if fps:
-        if not os.path.exists('data/raw/Cubo'):
-            raise Exception('You need to run "python -m tmproject.cli -i data/raw/Cubo.zip" first')
+        if len(images) == 0:
+            raise Exception('To run fps your command has to look as"python -m tmproject.cli -i data/raw/Cubo.zip" '
+                            '--fps 30')
     if filters:
         filter_list = filters[0].split(',')
         for f in filter_list:
