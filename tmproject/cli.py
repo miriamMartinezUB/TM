@@ -100,7 +100,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
             elif filter_name == 'gradient':
                 images = gradient_filter(images)
             elif filter_name == 'emboss':
-                images = emboss_filter(images)
+                images = emboss_filter(images, kernel_size=3 if argument is None else int(argument))
             elif filter_name == 'sharpen':
                 images = sharpen_filter(images)
             else:
