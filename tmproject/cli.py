@@ -25,7 +25,6 @@ from scripts.filters_conv.sharpen_filter import sharpen_filter
 from scripts.filters_conv.sobel_filter import sobel_filter
 from scripts.open_zip import open_zip
 from scripts.parse_filter import parse_filter
-from scripts.parse_images_to_jpeg import parse_images_to_jpeg
 from scripts.play_images import show_images_as_video
 from scripts.zip_images import zip_images
 
@@ -67,10 +66,10 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
     cmap = None
     if input_path:
         images = open_zip(input_path)
-    if fps:
-        if len(images) == 0:
-            raise Exception('To run fps your command has to look as"python -m tmproject.cli -i data/raw/Cubo.zip" '
-                            '--fps 30')
+
+    if len(images) == 0:
+        raise Exception('You must run the next command before continue "python -m tmproject.cli -i data/raw/Cubo.zip"')
+
     if filters:
         filter_list = filters[0].split(',')
         for f in filter_list:
@@ -89,6 +88,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
                 images = contrast_stretching(images)
             else:
                 raise Exception(f"We don't support {filter_name} filter")
+
     if filter_conv:
         filter_conv_list = filter_conv[0].split(',')
         for f in filter_conv_list:
@@ -110,10 +110,7 @@ def main(input_path, output_path, encode_arg, decode_arg, fps, n_tiles, seek_ran
                 raise Exception(f"We don't support {filter_name} filter conv")
 
     if output_path:
-        if len(images) == 0:
-            raise Exception("You must indicate an input path before --output")
-        parse_images_to_jpeg(images, output_path)
-        zip_images(output_path)
+        zip_images(output_path, images)
     else:
         show_images_as_video(images, fps, cmap)
 
