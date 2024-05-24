@@ -35,3 +35,46 @@ def encode(images, gop, n_tiles, quality):
         video.append(img_no_tiles)
 
     return video
+
+# def mse(imageA, imageB):
+#     # Calcula el error cuadrático medio entre dos imágenes
+#     err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
+#     err /= float(imageA.shape[0] * imageA.shape[1])
+#     return err
+#
+#
+# def process_images(images, gop_size, tessellation_size, max_displacement):
+#     reference_frame = images[0]
+#     processed_images = [reference_frame]
+#     h, w = tessellation_size
+#
+#     for i in range(1, len(images)):
+#         current_frame = images[i]
+#         processed_frame = current_frame.copy()
+#         for y in range(0, current_frame.shape[0], h):
+#             for x in range(0, current_frame.shape[1], w):
+#                 # Tesela actual
+#                 current_tess = current_frame[y:y + h, x:x + w]
+#                 min_mse = float('inf')
+#                 best_match = None
+#
+#                 # Buscar la mejor coincidencia en el marco anterior dentro del desplazamiento permitido
+#                 for dy in range(-max_displacement, max_displacement + 1):
+#                     for dx in range(-max_displacement, max_displacement + 1):
+#                         yy = y + dy
+#                         xx = x + dx
+#                         if yy < 0 or yy + h > current_frame.shape[0] or xx < 0 or xx + w > current_frame.shape[1]:
+#                             continue
+#                         ref_tess = reference_frame[yy:yy + h, xx:xx + w]
+#                         error = mse(current_tess, ref_tess)
+#                         if error < min_mse:
+#                             min_mse = error
+#                             best_match = (dy, dx)
+#
+#                 # Si la mejor coincidencia tiene un error bajo, reemplazar la tesela con el valor medio de la imagen
+#                 if min_mse < 1000:  # Umbral de error ajustable
+#                     processed_frame[y:y + h, x:x + w] = np.mean(current_frame)
+#
+#         processed_images.append(processed_frame)
+#
+#     return processed_images
