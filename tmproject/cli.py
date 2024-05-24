@@ -29,7 +29,9 @@ from scripts.open_zip import open_zip
 from scripts.parse_filter import parse_filter
 from scripts.play_images import show_images_as_video
 from scripts.zip_images import zip_images
-
+from scripts.read_gif import extract_frames_from_gif
+from scripts.read_video import extract_frames_from_video
+from scripts.zip_images_gif import zip_images_gif
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -62,7 +64,12 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
     _quality = 1e5 if quality is None else quality
 
     if input_path:
-        _images = open_zip(input_path)
+        if input_path.endswith('.gif'):
+            _images = extract_frames_from_gif(input_path)
+        elif input_path.endswith('.avi') or input_path.endswith('.mp4') or input_path.endswith('.mpeg'):
+            _images = extract_frames_from_video(input_path)
+        else:
+            _images = open_zip(input_path)
 
     if len(_images) == 0:
         raise Exception('You must run the next command before continue "python -m tmproject.cli -i data/raw/Cubo.zip"')
@@ -106,10 +113,13 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 
-    encode(_images, _gop, _n_tiles, _quality)
-    video_from_images(_fps)
+#    encode(_images, _gop, _n_tiles, _quality)
+#    video_from_images(_fps)
     if output_path:
-        zip_images(output_path, _images)
+        if input_path.endswith('.gif'):
+            zip_images_gif(output_path, _images)
+        else:
+            zip_images(output_path, _images)
     else:
         show_images_as_video(_images, _fps, _cmap)
 

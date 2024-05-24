@@ -55,10 +55,7 @@ pip install -e .
     python -m tmproject.cli -h
     ```
 
-- S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG.
-    ```bash
-    python -m tmproject.cli -i data/raw/hola.zip
-    ```    
+- S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG. 
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip
   ```
@@ -66,13 +63,16 @@ pip install -e .
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --fps 50
   ```
-
 - Zip images
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip -o data/raw/Cubo_jpeg.zip
   ```
   ```bash
   python -m tmproject.cli --input data/raw/Cubo.zip --output data/raw/Cubo_jpeg.zip
+  ```
+- Llegir imatges d'un gif
+  ```bash
+  python -m tmproject.cli -i data/raw/samplegif.gif 
   ```
 - Filtre negatiu
   ```bash
