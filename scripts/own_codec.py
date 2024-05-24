@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 from scipy.fftpack import dct
+from tqdm import tqdm
 
 def split_into_tiles(image, num_tiles):
     """
@@ -37,12 +38,19 @@ def process_video(video, gop, num_tiles, max_displacement):
     Process a video with the given parameters.
     """
     processed_video = []
-    reference_frame = video[0]
-    processed_video.append(reference_frame)
+    reference_frame = None
 
-    for frame_idx in range(1, len(video)):
+    for frame_idx in tqdm(range(len(video)), desc="Processing frames", unit="frame"):
         current_frame = video[frame_idx]
-        reference_frame = video[frame_idx - 1] if frame_idx % gop != 0 else current_frame
+
+        if frame_idx % gop == 0:
+            # Si es una imagen de referencia, añadirla sin modificar
+            processed_video.append(current_frame)
+            reference_frame = current_frame
+            continue
+
+        if reference_frame is None:
+            reference_frame = current_frame
 
         current_tiles = split_into_tiles(current_frame, num_tiles)
         reference_tiles = split_into_tiles(reference_frame, num_tiles)
@@ -67,21 +75,10 @@ def process_video(video, gop, num_tiles, max_displacement):
                             max_corr = corr
                             best_tile = ref_tile
 
-            if max_corr > 0.9:  # Threshold for similarity
+            if max_corr > 0.95:  # Threshold for similarity
                 new_frame[i*tile_height:(i+1)*tile_height, j*tile_width:(j+1)*tile_width] = np.mean(current_frame)
 
         processed_video.append(new_frame)
 
     return processed_video
 
-# Example usage
-video = [cv2.imread("/data/raw/Cubo", cv2.IMREAD_GRAYSCALE) for i in range(10)]  # Replace with actual video frames
-gop = 5
-num_tiles = 4
-max_displacement = 1
-
-processed_video = process_video(video, gop, num_tiles, max_displacement)
-
-# Save processed video frames
-for idx, frame in enumerate(processed_video):
-    cv2.imwrite(f'data/tmp/processed_frame_{idx}.jpg', frame)

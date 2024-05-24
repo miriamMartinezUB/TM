@@ -1,6 +1,11 @@
 import cv2
 
 def extract_frames_from_video(video_path):
+    """
+    Extract frames from a video.
+    :param video_path: path to the video.
+    :return: a list of frames
+    """
     # Abrir el archivo de video
     cap = cv2.VideoCapture(video_path)
     frames = []
