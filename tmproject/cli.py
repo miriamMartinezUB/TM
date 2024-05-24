@@ -13,6 +13,7 @@ by the commands.
 import click
 
 from scripts.create_video_from_images import video_from_images
+from scripts.decode import rebuild_video
 from scripts.filters.binarization_filter import binarization_filter
 from scripts.filters.contrast_stretching import contrast_stretching
 from scripts.filters.grayscale_filter import grayscale_filter
@@ -24,6 +25,7 @@ from scripts.filters_conv.emboss_filter import emboss_filter
 from scripts.filters_conv.gradient_filter import gradient_filter
 from scripts.filters_conv.sharpen_filter import sharpen_filter
 from scripts.filters_conv.sobel_filter import sobel_filter
+from scripts.json_utils import save_info_encode, get_path, name_json, check_video_info_json
 from scripts.open_zip import open_zip
 from scripts.own_codec import process_video
 from scripts.parse_filter import parse_filter
@@ -55,20 +57,38 @@ from scripts.zip_images_gif import zip_images_gif
 @click.option('--filter-conv', 'filter_conv', multiple=True,
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.option('-e', '--encode', is_flag=True, help='Activa el mode de codificació.')
+@click.option('-d', '--decode', is_flag=True, help='Decodifica')
 @click.option('-g', '--generate', is_flag=True, help='Genera un video avi')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv, encode, generate):
+def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv, encode, generate,
+         decode):
     _images = []
     _cmap = None
+    _json_data_map = []
 
     if input_path:
         if input_path.endswith('.gif'):
-            _images = extract_frames_from_gif(input_path)
+            _images, _json_data_map = extract_frames_from_gif(input_path)
         elif input_path.endswith('.avi') or input_path.endswith('.mp4') or input_path.endswith('.mpeg'):
-            _images = extract_frames_from_video(input_path)
+            _images, _json_data_map = extract_frames_from_video(input_path)
         else:
-            _images = open_zip(input_path)
+            _images, _json_data_map = open_zip(input_path)
+
+    if decode:
+        path = get_path(input_path)
+        check_video_info_json(path)
+        info = _json_data_map[f"{path}/{name_json}"]
+        gop = info["gop"]
+        num_tiles = info["num_tiles"]
+        max_displacement = info["max_displacement"]
+        quality = info["quality"]
+        frames_info = info["frames"]
+        fps = info["fps"]
+        filters = info["filters"]
+        filter_conv = info["filter_conv"]
+        _images = rebuild_video(gop=gop, num_tiles=num_tiles, max_displacement=max_displacement, quality=quality,
+                                frames_info=frames_info)
 
     if len(_images) == 0:
         raise Exception('You must import something not empty')
@@ -115,11 +135,17 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
         video_from_images(images=_images, fps=fps)
     if encode:
         _images = process_video(_images, int(gop), n_tiles, seek_range, quality)
+        save_info_encode(processed_video=_images, gop=gop, quality=quality, fps=fps, filters=filters,
+                         filter_conv=filter_conv, num_tiles=n_tiles, max_displacement=seek_range, input_path=input_path)
+
     if output_path:
+        if encode:
+            show_images_as_video(_images, fps, _cmap)
         if input_path.endswith('.gif'):
             zip_images_gif(output_path, _images)
         else:
-            zip_images(output_path, _images)
+            zip_images(output_path, _images,
+                       json_file_path=f"{get_path(input_path)}/video_info.json" if encode else None)
     else:
         show_images_as_video(_images, fps, _cmap)
 

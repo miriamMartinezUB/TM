@@ -55,7 +55,7 @@ pip install -e .
     python -m tmproject.cli -h
     ```
 
-- S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG. 
+- S1: Implementació d’un lector/escriptor de fitxers ZIP i JPEG.
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip
   ```
@@ -107,4 +107,9 @@ pip install -e .
 - Filtre sobel
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter-conv "sobel"
+  ```
+- Encode i decode
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
+  python -m tmproject.cli -i data/raw/output.zip -d 
   ```
