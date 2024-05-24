@@ -115,7 +115,6 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
         video_from_images(images=_images, fps=fps)
     if encode:
         _images = process_video(_images, int(gop), n_tiles, seek_range, quality)
-    # _images = encode1(_images, 10, 4, 10)
     if output_path:
         if input_path.endswith('.gif'):
             zip_images_gif(output_path, _images)
