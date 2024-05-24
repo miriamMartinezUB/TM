@@ -1,12 +1,18 @@
 import os
 import zipfile
+
 from tqdm import tqdm
+
 
 def zip_images_gif(directory_name, images):
     """
-    :param directory_name: destination directory
-    :param images: input images
-    :return: no return, only prints info
+    Comprimeix les imatges en un fitxer ZIP.
+
+    :param directory_name: Directori de destinació.
+    :type directory_name: str
+    :param images: Imatges d'entrada.
+    :type images: list
+    :return: No hi ha cap retorn, només imprimeix informació.
     """
     # Crear un archivo ZIP
     with zipfile.ZipFile(directory_name, 'w') as zipf:

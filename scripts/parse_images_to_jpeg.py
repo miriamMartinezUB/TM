@@ -4,6 +4,16 @@ from PIL import Image
 
 
 def parse_images_to_jpeg(input_files, new_directory_name):
+    """
+    Converteix les imatges d'entrada a format JPEG i les guarda en un directori nou.
+
+    Args:
+        input_files (list): Llista de rutes dels arxius d'imatge d'entrada.
+        new_directory_name (str): Nom del directori on guardar les imatges convertides.
+
+    Returns:
+        None
+    """
     directory_name_without_extension = os.path.splitext(new_directory_name)[0]
 
     os.makedirs(directory_name_without_extension, exist_ok=True)

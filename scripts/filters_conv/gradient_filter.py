@@ -5,6 +5,15 @@ from skimage.util import img_as_float
 
 
 def gradient_filter(images):
+    """
+    Calcula el gradient de magnitud per a cada imatge en una llista.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges amb el gradient de magnitud com arrays de numpy.
+    """
     gradient_images = []
 
     for image in images:

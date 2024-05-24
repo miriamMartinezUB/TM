@@ -4,6 +4,15 @@ from skimage.util import img_as_float
 
 
 def sobel_filter(images):
+    """
+    Aplica el filtre de Sobel a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges amb el filtre de Sobel aplicat com arrays de numpy.
+    """
     sobel_images = []
     for img in images:
         # Convertir a RGB si la imagen está en escala de grises

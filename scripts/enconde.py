@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def encode(images, gop, n_tiles, quality):
+def encode1(images, gop, n_tiles, quality):
     def correlate(tile1, tile2):
         # Algorisme de correlació: calcula la suma de les diferències absolutes entre els píxels
         return np.sum(np.abs(tile1 - tile2))

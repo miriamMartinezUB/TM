@@ -5,6 +5,15 @@ from skimage.util import img_as_float
 
 
 def sharpen_filter(images):
+    """
+    Aplica un filtre d'enfocament a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges amb l'efecte d'enfocament com arrays de numpy.
+    """
     sharpened_images = []
 
     for image in images:

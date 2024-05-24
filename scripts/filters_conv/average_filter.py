@@ -5,6 +5,15 @@ from skimage.util import img_as_float
 
 
 def average_filter(images):
+    """
+    Aplica un filtre de mitjana a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges filtrades amb mitjana com arrays de numpy.
+    """
     avg_images = []
 
     # Definir el kernel

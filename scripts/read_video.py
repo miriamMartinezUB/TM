@@ -1,10 +1,14 @@
 import cv2
 
+
 def extract_frames_from_video(video_path):
     """
-    Extract frames from a video.
-    :param video_path: path to the video.
-    :return: a list of frames
+    Extreu els fotogrames d'un vídeo.
+
+    :param video_path: Ruta al vídeo.
+    :type video_path: str
+    :return: Una llista de fotogrames.
+    :rtype: list
     """
     # Abrir el archivo de video
     cap = cv2.VideoCapture(video_path)

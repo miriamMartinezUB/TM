@@ -1,11 +1,18 @@
 import numpy as np
-import cv2
 from scipy.fftpack import dct
 from tqdm import tqdm
 
+
 def split_into_tiles(image, num_tiles):
     """
-    Split an image into a given number of tiles.
+    Divideix una imatge en un nombre determinat de tessel·les.
+
+    :param image: Imatge d'entrada.
+    :type image: numpy.ndarray
+    :param num_tiles: Nombre de tessel·les en cada dimensió.
+    :type num_tiles: int
+    :return: Llista de tessel·les.
+    :rtype: list[numpy.ndarray]
     """
     height, width = image.shape[:2]
     tile_height = height // num_tiles
@@ -14,28 +21,56 @@ def split_into_tiles(image, num_tiles):
 
     for i in range(num_tiles):
         for j in range(num_tiles):
-            tile = image[i*tile_height:(i+1)*tile_height, j*tile_width:(j+1)*tile_width]
+            tile = image[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width]
             tiles.append(tile)
 
     return tiles
 
+
 def calculate_dct(tile):
     """
-    Calculate the DCT of a tile.
+    Calcula la DCT (Transformada Discreta del Cosinus) d'una tessel·la.
+
+    :param tile: Tessel·la d'entrada.
+    :type tile: numpy.ndarray
+    :return: DCT de la tessel·la.
+    :rtype: numpy.ndarray
     """
     return dct(dct(tile.T, norm='ortho').T, norm='ortho')
 
+
 def calculate_correlation(tile1, tile2):
     """
-    Calculate the correlation between two tiles using their DCT.
+    Calcula la correlació entre dues tessel·les utilitzant les seves DCT.
+
+    :param tile1: Primera tessel·la.
+    :type tile1: numpy.ndarray
+    :param tile2: Segona tessel·la.
+    :type tile2: numpy.ndarray
+    :return: Correlació entre les dues tessel·les.
+    :rtype: float
     """
     dct1 = calculate_dct(tile1)
     dct2 = calculate_dct(tile2)
     return np.corrcoef(dct1.flatten(), dct2.flatten())[0, 1]
 
+
 def process_video(video, gop, num_tiles, max_displacement, quality):
     """
-    Process a video with the given parameters.
+    Processa un vídeo amb els paràmetres donats.
+
+    :param video: Vídeo d'entrada com una llista de fotogrames.
+    :type video: list[numpy.ndarray]
+    :param gop: Mida del grup d'imatges (GOP).
+    :type gop: int
+    :param num_tiles: Nombre de tessel·les en cada dimensió.
+    :type num_tiles: int
+    :param max_displacement: Desplaçament màxim per cercar correlacions.
+    :type max_displacement: int
+    :param quality: Qualitat mínima de la correlació per considerar una tessel·la.
+    :type quality: float
+    :return: Vídeo processat.
+    :rtype: list[numpy.ndarray]
     """
     processed_video = []
     reference_frame = None
@@ -76,9 +111,9 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
                             best_tile = ref_tile
 
             if max_corr > quality:  # Threshold for similarity
-                new_frame[i*tile_height:(i+1)*tile_height, j*tile_width:(j+1)*tile_width] = np.mean(current_frame)
+                new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = np.mean(
+                    current_frame)
 
         processed_video.append(new_frame)
 
     return processed_video
-

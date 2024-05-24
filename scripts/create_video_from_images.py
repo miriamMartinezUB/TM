@@ -1,29 +1,24 @@
-import os
-
 import cv2
 
 
-def video_from_images(fps):
-    # TODO coger las imagenes modificadas por parametro
-    directorio_imagenes = 'data/raw/Cubo'
+def video_from_images(images, fps):
+    """
+    Crea un vídeo a partir d'una llista d'imatges.
 
-    # Lista de nombres de archivo de las imágenes
-    nombres_archivos = sorted(os.listdir(directorio_imagenes))
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+        fps (int): Fotogrames per segon per al vídeo.
 
-    # Determinar el tamaño de una imagen para configurar el tamaño del video
-    imagen_ejemplo = cv2.imread(os.path.join(directorio_imagenes, nombres_archivos[0]))
-    alto, ancho, _ = imagen_ejemplo.shape
+    Returns:
+        No retorna res, però genera un file de sortida que es diu video_salida.avi on es pot veure el vídeo amb els filtres que hàgim aplicat si és que ho hem fet.
+    """
+    height, width, _ = images[0].shape
 
-    # Configurar el objeto VideoWriter
-    ruta_video = 'video_salida.avi'  # Nombre del archivo de video de salida
-    codec = cv2.VideoWriter_fourcc(*'XVID')  # Codec para el archivo de video (AVI)
-    video_salida = cv2.VideoWriter(ruta_video, codec, float(fps), (ancho, alto))
+    ruta_video = 'video_salida.avi'
+    codec = cv2.VideoWriter_fourcc(*'XVID')
+    video_salida = cv2.VideoWriter(ruta_video, codec, float(fps), (width, height))
 
-    # Iterar sobre las imágenes y agregarlas al video
-    for nombre_archivo in nombres_archivos:
-        ruta_imagen = os.path.join(directorio_imagenes, nombre_archivo)
-        imagen = cv2.imread(ruta_imagen)
-        video_salida.write(imagen)
+    for image in images:
+        video_salida.write(image)
 
-    # Liberar el objeto VideoWriter
     video_salida.release()

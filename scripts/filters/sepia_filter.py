@@ -3,6 +3,15 @@ from skimage.util import img_as_float
 
 
 def sepia_filter(images):
+    """
+    Aplica un filtre sépia a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges sépia com arrays de numpy.
+    """
     sepia_images = []
 
     # Coeficientes para la transformación de color sepia

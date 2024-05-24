@@ -1,0 +1,13 @@
+site_name: Documentació d'un còdec de vídeo
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      docstring_style: google
+      separate_signature: true

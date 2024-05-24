@@ -5,6 +5,15 @@ from skimage.util import img_as_float
 
 
 def emboss_filter(images):
+    """
+    Aplica un filtre d'emboss a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges amb l'efecte d'emboss com arrays de numpy.
+    """
     emboss_images = []
 
     for image in images:

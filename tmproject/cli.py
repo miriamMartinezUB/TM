@@ -12,7 +12,7 @@ by the commands.
 
 import click
 
-from scripts.enconde import encode
+from scripts.create_video_from_images import video_from_images
 from scripts.filters.binarization_filter import binarization_filter
 from scripts.filters.contrast_stretching import contrast_stretching
 from scripts.filters.grayscale_filter import grayscale_filter
@@ -25,14 +25,14 @@ from scripts.filters_conv.gradient_filter import gradient_filter
 from scripts.filters_conv.sharpen_filter import sharpen_filter
 from scripts.filters_conv.sobel_filter import sobel_filter
 from scripts.open_zip import open_zip
+from scripts.own_codec import process_video
 from scripts.parse_filter import parse_filter
 from scripts.play_images import show_images_as_video
-from scripts.zip_images import zip_images
 from scripts.read_gif import extract_frames_from_gif
 from scripts.read_video import extract_frames_from_video
+from scripts.zip_images import zip_images
 from scripts.zip_images_gif import zip_images_gif
-from scripts.compression import compression
-from scripts.own_codec import process_video
+
 
 @click.option('-i', "--input", 'input_path',
               help='<path to file.zip> : Fitxer d’entrada. Argument obligatori.')
@@ -44,20 +44,21 @@ from scripts.own_codec import process_video
 @click.option("--n-tiles", default=12,
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
-@click.option("--seek-range", default =1,
+@click.option("--seek-range", default=1,
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
-@click.option("--gop", defafult = 5,
+@click.option("--gop", default=5,
               help='<value> : nombre d’imatges entre dos frames de referència')
-@click.option("--quality",
+@click.option("--quality", default=0.95,
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
 @click.option('-f', "--filter", 'filters', multiple=True,
               help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.option('--filter-conv', 'filter_conv', multiple=True,
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.option('-e', '--encode', is_flag=True, help='Activa el mode de codificació.')
+@click.option('-g', '--generate', is_flag=True, help='Genera un video avi')
 @click.help_option('--help', '-h')
 @click.command()
-def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv):
+def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv, encode, generate):
     _images = []
     _cmap = None
 
@@ -110,9 +111,11 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
                 _images = blur_filter(_images)
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
-
+    if generate:
+        video_from_images(images=_images, fps=fps)
     if encode:
-        _images = process_video(_images, int(gop), n_tiles, seek_range,quality)
+        _images = process_video(_images, int(gop), n_tiles, seek_range, quality)
+    # _images = encode1(_images, 10, 4, 10)
     if output_path:
         if input_path.endswith('.gif'):
             zip_images_gif(output_path, _images)

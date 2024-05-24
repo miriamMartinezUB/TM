@@ -5,6 +5,15 @@ from skimage.util import img_as_float
 
 
 def blur_filter(images):
+    """
+    Aplica un filtre de desenfocament a una llista d'imatges.
+
+    Args:
+        images (list): Llista d'imatges (cada imatge és un array de numpy).
+
+    Returns:
+        list: Llista d'imatges desenfocades com arrays de numpy.
+    """
     blur_images = []
 
     # Definir el kernel

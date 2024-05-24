@@ -4,12 +4,16 @@ import zipfile
 from PIL import Image
 from tqdm import tqdm  # Importing the tqdm library
 
+
 def zip_images(directory_name, images):
     """
-    Zips all the images inside the given directory.
-    :param directory_name:
-    :param images:
-    :return:
+    Comprimeix totes les imatges dins del directori donat.
+
+    :param directory_name: Nom del directori.
+    :type directory_name: str
+    :param images: Llista d'imatges a comprimir.
+    :type images: list
+    :return: None
     """
     # Crear un archivo ZIP
     with zipfile.ZipFile(directory_name, 'w') as zipf:
@@ -31,4 +35,3 @@ def zip_images(directory_name, images):
             os.remove(temp_image_path)
 
     print(f"Las imágenes se han guardado correctamente en {directory_name}")
-

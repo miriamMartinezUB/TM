@@ -6,6 +6,15 @@ from skimage import io
 
 
 def open_zip(input_path):
+    """
+    Obre un arxiu ZIP que conté imatges o fitxers de text.
+
+    Args:
+        input_path (str): Ruta de l'arxiu ZIP.
+
+    Returns:
+        list: Una llista d'arrays numpy que contenen les imatges per ordre alfabètic contingudes dins del ZIP.
+    """
     zip_path = Path(input_path)
     image_path_files = []
 
