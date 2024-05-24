@@ -33,7 +33,7 @@ def calculate_correlation(tile1, tile2):
     dct2 = calculate_dct(tile2)
     return np.corrcoef(dct1.flatten(), dct2.flatten())[0, 1]
 
-def process_video(video, gop, num_tiles, max_displacement):
+def process_video(video, gop, num_tiles, max_displacement, quality):
     """
     Process a video with the given parameters.
     """
@@ -75,7 +75,7 @@ def process_video(video, gop, num_tiles, max_displacement):
                             max_corr = corr
                             best_tile = ref_tile
 
-            if max_corr > 0.95:  # Threshold for similarity
+            if max_corr > quality:  # Threshold for similarity
                 new_frame[i*tile_height:(i+1)*tile_height, j*tile_width:(j+1)*tile_width] = np.mean(current_frame)
 
         processed_video.append(new_frame)

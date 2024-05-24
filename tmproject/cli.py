@@ -12,7 +12,6 @@ by the commands.
 
 import click
 
-from scripts.create_video_from_images import video_from_images
 from scripts.enconde import encode
 from scripts.filters.binarization_filter import binarization_filter
 from scripts.filters.contrast_stretching import contrast_stretching
@@ -42,12 +41,12 @@ from scripts.own_codec import process_video
                    'informació necessària per la descodificació.')
 @click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
-@click.option("--n-tiles",
+@click.option("--n-tiles", default=12,
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
-@click.option("--seek-range",
+@click.option("--seek-range", default =1,
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
-@click.option("--gop",
+@click.option("--gop", defafult = 5,
               help='<value> : nombre d’imatges entre dos frames de referència')
 @click.option("--quality",
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
@@ -55,15 +54,12 @@ from scripts.own_codec import process_video
               help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.option('--filter-conv', 'filter_conv', multiple=True,
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
+@click.option('-e', '--encode', is_flag=True, help='Activa el mode de codificació.')
 @click.help_option('--help', '-h')
 @click.command()
 def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv):
     _images = []
     _cmap = None
-    _fps = 30 if fps is None else fps
-    _gop = 10 if gop is None else gop
-    _n_tiles = 4 if n_tiles is None else n_tiles
-    _quality = 1e5 if quality is None else quality
 
     if input_path:
         if input_path.endswith('.gif'):
@@ -115,15 +111,15 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
 
-    if gop:
-        _images = process_video(_images, int(gop), 12, 1)
+    if encode:
+        _images = process_video(_images, int(gop), n_tiles, seek_range,quality)
     if output_path:
         if input_path.endswith('.gif'):
             zip_images_gif(output_path, _images)
         else:
             zip_images(output_path, _images)
     else:
-        show_images_as_video(_images, _fps, _cmap)
+        show_images_as_video(_images, fps, _cmap)
 
 
 if __name__ == "__main__":

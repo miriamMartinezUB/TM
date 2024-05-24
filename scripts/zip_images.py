@@ -5,6 +5,12 @@ from PIL import Image
 from tqdm import tqdm  # Importing the tqdm library
 
 def zip_images(directory_name, images):
+    """
+    Zips all the images inside the given directory.
+    :param directory_name:
+    :param images:
+    :return:
+    """
     # Crear un archivo ZIP
     with zipfile.ZipFile(directory_name, 'w') as zipf:
         # Initialize the progress bar
@@ -26,6 +32,3 @@ def zip_images(directory_name, images):
 
     print(f"Las imágenes se han guardado correctamente en {directory_name}")
 
-# Example usage
-# images = [array1, array2, array3]  # Replace with your actual image arrays
-# zip_images("output.zip", images)
