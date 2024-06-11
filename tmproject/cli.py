@@ -12,6 +12,7 @@ by the commands.
 
 import click
 
+from scripts.compression_ratio_info import get_compression_ratio
 from scripts.create_video_from_images import video_from_images
 from scripts.decode import rebuild_video
 from scripts.filters.binarization_filter import binarization_filter
@@ -74,7 +75,7 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
             _images = extract_frames_from_video(input_path)
         else:
             _images, _json_data_map = open_zip(input_path)
-            if decode:
+            if decode and len(_json_data_map) != 0:
                 path = get_path(input_path)
                 check_video_info_json(path)
                 _info = _json_data_map[f"{path}/{name_json}"]
@@ -145,6 +146,10 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
                        json_file_path=f"{get_path(input_path)}/video_info.json" if encode else None)
     else:
         show_images_as_video(_images, fps, _cmap)
+
+    if input_path and output_path:
+        ratio = get_compression_ratio(input_path, output_path)
+        print(f'Ratio de compresión: {ratio:.2f}, {int(1 / ratio)}:1')
 
 
 if __name__ == "__main__":
