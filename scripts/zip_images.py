@@ -24,6 +24,11 @@ def zip_images(directory_name, images, json_file_path=None):
             # Convertir la imagen a formato PIL para guardarla
             pil_image = Image.fromarray(image)
 
+            # Comprovar si la imatge ja està en un mode compatible amb PNG
+            if pil_image.mode not in ['L', 'LA', 'P', 'PA', 'RGB', 'RGBA']:
+                # Convertir la imatge a mode RGB si no és compatible
+                pil_image = pil_image.convert('RGB')
+
             # Crear un nombre temporal para la imagen
             temp_image_path = f"image_{i:02d}.png"
 
@@ -41,4 +46,4 @@ def zip_images(directory_name, images, json_file_path=None):
             # Agregar el archivo JSON al archivo ZIP
             zipf.write(json_file_path, os.path.basename(json_file_path))
 
-    print(f"Las imágenes se han guardado correctamente en {directory_name}")
+    print(f"Les imatges s'han guardat correctament en {directory_name}")
