@@ -13,14 +13,13 @@ def save_info_encode(frames_info, gop, num_tiles, max_displacement, quality, fps
         "gop": gop,
         "num_tiles": num_tiles,
         "fps": fps,
-        "filters": filters,
-        "filter_conv": filter_conv,
         "frames_info": frames_info
     }
 
     path = get_path(input_path)
     with open(f"{path}/{name_json}", "w") as json_file:
         json.dump(info, json_file, indent=4)
+    return info
 
 
 def check_video_info_json(folder_path):

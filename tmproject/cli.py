@@ -65,7 +65,7 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
          decode):
     _images = []
     _cmap = None
-    _json_data_map = []
+    _info = None
 
     if input_path:
         if input_path.endswith('.gif'):
@@ -74,18 +74,10 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
             _images = extract_frames_from_video(input_path)
         else:
             _images, _json_data_map = open_zip(input_path)
-
-    if decode:
-        path = get_path(input_path)
-        check_video_info_json(path)
-        info = _json_data_map[f"{path}/{name_json}"]
-        gop = info["gop"]
-        num_tiles = info["num_tiles"]
-        frames_info = info["frames_info"]
-        fps = info["fps"]
-        filters = info["filters"]
-        filter_conv = info["filter_conv"]
-        _images = rebuild_video(gop=gop, num_tiles=num_tiles, frames_info=frames_info, processed_video=_images)
+            if decode:
+                path = get_path(input_path)
+                check_video_info_json(path)
+                _info = _json_data_map[f"{path}/{name_json}"]
 
     if len(_images) == 0:
         raise Exception('You must import something not empty')
@@ -130,10 +122,18 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
                 raise Exception(f"We don't support {filter_name} filter conv")
     if generate:
         video_from_images(images=_images, fps=fps)
+
     if encode:
         _images, _frames_info = process_video(_images, int(gop), n_tiles, seek_range, quality)
-        save_info_encode(frames_info=_frames_info, gop=gop, quality=quality, fps=fps, filters=filters,
-                         filter_conv=filter_conv, num_tiles=n_tiles, max_displacement=seek_range, input_path=input_path)
+        _info = save_info_encode(frames_info=_frames_info, gop=gop, quality=quality, fps=fps, filters=filters,
+                                 filter_conv=filter_conv, num_tiles=n_tiles, max_displacement=seek_range,
+                                 input_path=input_path)
+    if decode:
+        gop = _info["gop"]
+        num_tiles = _info["num_tiles"]
+        frames_info = _info["frames_info"]
+        fps = _info["fps"]
+        _images = rebuild_video(gop=gop, num_tiles=num_tiles, frames_info=frames_info, processed_video=_images)
 
     if output_path:
         if encode:
