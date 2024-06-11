@@ -23,6 +23,7 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
     """
     processed_video = []
     reference_frame = None
+    frames_info = []
 
     for frame_idx in tqdm(range(len(video)), desc="Processing frames", unit="frame"):
         current_frame = video[frame_idx]
@@ -31,6 +32,7 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
             # Si es una imagen de referencia, añadirla sin modificar
             processed_video.append(current_frame)
             reference_frame = current_frame
+            frames_info.append({"frame_idx": frame_idx, "tiles_removed": []})
             continue
 
         if reference_frame is None:
@@ -43,6 +45,8 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
 
         new_frame = current_frame.copy()
         tile_height, tile_width = current_tiles[0].shape[:2]
+
+        tiles_removed = []
 
         for idx, current_tile in enumerate(current_tiles):
             i = idx // num_tiles
@@ -63,7 +67,9 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
 
             if max_corr > quality:  # Threshold for similarity
                 new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = mean_color
+                tiles_removed.append({"i": i, "j": j, "mean_color": mean_color.tolist()})
 
         processed_video.append(new_frame)
+        frames_info.append({"frame_idx": frame_idx, "tiles_removed": tiles_removed})
 
-    return processed_video
+    return processed_video, frames_info

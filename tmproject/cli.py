@@ -81,14 +81,11 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
         info = _json_data_map[f"{path}/{name_json}"]
         gop = info["gop"]
         num_tiles = info["num_tiles"]
-        max_displacement = info["max_displacement"]
-        quality = info["quality"]
-        frames_info = info["frames"]
+        frames_info = info["frames_info"]
         fps = info["fps"]
         filters = info["filters"]
         filter_conv = info["filter_conv"]
-        _images = rebuild_video(gop=gop, num_tiles=num_tiles, max_displacement=max_displacement, quality=quality,
-                                frames_info=frames_info)
+        _images = rebuild_video(gop=gop, num_tiles=num_tiles, frames_info=frames_info, processed_video=_images)
 
     if len(_images) == 0:
         raise Exception('You must import something not empty')
@@ -134,8 +131,8 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
     if generate:
         video_from_images(images=_images, fps=fps)
     if encode:
-        _images = process_video(_images, int(gop), n_tiles, seek_range, quality)
-        save_info_encode(processed_video=_images, gop=gop, quality=quality, fps=fps, filters=filters,
+        _images, _frames_info = process_video(_images, int(gop), n_tiles, seek_range, quality)
+        save_info_encode(frames_info=_frames_info, gop=gop, quality=quality, fps=fps, filters=filters,
                          filter_conv=filter_conv, num_tiles=n_tiles, max_displacement=seek_range, input_path=input_path)
 
     if output_path:
