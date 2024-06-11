@@ -61,7 +61,7 @@ from scripts.zip_images_gif import zip_images_gif
               help='Especifica els filtres de convolució a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
 @click.option('-e', '--encode', is_flag=True, help='Activa el mode de codificació.')
 @click.option('-d', '--decode', is_flag=True, help='Decodifica')
-@click.option('-g', '--generate', is_flag=True, help='Genera un video avi')
+@click.option('-g', '--generate', help='Genera un video avi mediante el nombre del archivo, pe: video_salida')
 @click.help_option('--help', '-h')
 @click.command()
 def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filters, filter_conv, encode, generate,
@@ -140,9 +140,6 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
         print(f"Tiempo de procesamiento aplicando filtros-conv: {processing_time:.2f} s")
         print(f"Tiempo de procesamiento aplicando filtros-conv por frame: {processing_time / len(_images):.2f} s")
 
-    if generate:
-        video_from_images(images=_images, fps=fps)
-
     if encode:
         start_time = time.time()
         _images, _frames_info = process_video(_images, int(gop), n_tiles, seek_range, quality)
@@ -166,6 +163,9 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
         processing_time = (end_time - start_time) * 1000
         print(f"Tiempo de procesamiento decoding: {processing_time:.2f} ms")
         print(f"Tiempo de procesamiento decoding por frame: {processing_time / len(_images):.2f} ms")
+
+    if generate is not None:
+        video_from_images(images=_images, fps=fps, file_name=generate)
 
     if output_path:
         if encode:

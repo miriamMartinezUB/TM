@@ -1,7 +1,7 @@
 import cv2
 
 
-def video_from_images(images, fps):
+def video_from_images(images, fps, file_name):
     """
     Crea un vídeo a partir d'una llista d'imatges.
 
@@ -14,7 +14,7 @@ def video_from_images(images, fps):
     """
     height, width, _ = images[0].shape
 
-    ruta_video = 'video_salida.avi'
+    ruta_video = f'{file_name}.avi'
     codec = cv2.VideoWriter_fourcc(*'XVID')
     video_salida = cv2.VideoWriter(ruta_video, codec, float(fps), (width, height))
 
