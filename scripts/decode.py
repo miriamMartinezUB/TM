@@ -1,19 +1,19 @@
 
 def rebuild_video(gop, num_tiles, frames_info, processed_video):
     """
-    Reconstruye el vídeo original a partir de la información de los frames procesados.
+    Reconstrueix el vídeo original a partir de la informació dels fotogrames processats.
 
-    :param gop: Tamaño del grupo de imágenes (GOP).
+    :param gop: Mida del grup d'imatges (GOP).
     :type gop: int
-    :param num_tiles: Número de teselas en cada dimensión.
+    :param num_tiles: Nombre de tessel·les en cada dimensió.
     :type num_tiles: int
-    :param frames_info: Información de los frames procesados. Cada elemento es un diccionario que contiene el índice del frame y las teselas eliminadas, incluyendo los índices de la tesela actual y la mejor tesela de referencia.
+    :param frames_info: Informació dels fotogrames processats. Cada element és un diccionari que conté l'índex del fotograma i les tessel·les eliminades, incloent-hi els índexs de la tessel·la actual i la millor tessel·la de referència.
     :type frames_info: list[dict]
-    :param processed_video: Vídeo procesado como una lista de fotogramas.
+    :param processed_video: Vídeo processat com una llista de fotogrames.
     :type processed_video: list[numpy.ndarray]
-    :return: Vídeo original reconstruido.
+    :return: Vídeo original reconstruït.
     :rtype: list[numpy.ndarray]
-    """
+"""
     rebuilt_video = []
     reference_frame = []
 

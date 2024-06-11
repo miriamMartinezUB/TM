@@ -5,21 +5,21 @@ from scripts.utils import calculate_correlation, split_into_tiles
 
 def process_video(video, gop, num_tiles, max_displacement, quality):
     """
-    Procesa un vídeo con los parámetros dados.
+    Processa un vídeo amb els paràmetres donats.
 
-    :param video: Vídeo de entrada como una lista de fotogramas.
+    :param video: Vídeo d'entrada com una llista de fotogrames.
     :type video: list[numpy.ndarray]
-    :param gop: Tamaño del grupo de imágenes (GOP).
+    :param gop: Mida del grup d'imatges (GOP).
     :type gop: int
-    :param num_tiles: Número de teselas en cada dimensión.
+    :param num_tiles: Nombre de tessel·les en cada dimensió.
     :type num_tiles: int
-    :param max_displacement: Desplazamiento máximo para buscar correlaciones.
+    :param max_displacement: Desplaçament màxim per cercar correlacions.
     :type max_displacement: int
-    :param quality: Calidad mínima de la correlación para considerar una tesela.
+    :param quality: Qualitat mínima de la correlació per considerar una tessel·la.
     :type quality: float
-    :return: Una tupla con el vídeo procesado y la información de los frames.
+    :return: Una tupla amb el vídeo processat i la informació dels fotogrames.
     :rtype: tuple(list[numpy.ndarray], list[dict])
-    """
+"""
     processed_video = []
     reference_frame = []
     frames_info = []
