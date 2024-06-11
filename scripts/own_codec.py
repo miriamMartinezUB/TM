@@ -22,7 +22,7 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
     :rtype: list[numpy.ndarray]
     """
     processed_video = []
-    reference_frame = None
+    reference_frame = []
     frames_info = []
 
     for frame_idx in tqdm(range(len(video)), desc="Processing frames", unit="frame"):
@@ -33,43 +33,40 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
             processed_video.append(current_frame)
             reference_frame = current_frame
             frames_info.append({"frame_idx": frame_idx, "tiles_removed": []})
-            continue
 
-        if reference_frame is None:
-            reference_frame = current_frame
+        else:
+            current_tiles = split_into_tiles(current_frame, num_tiles)
+            reference_tiles = split_into_tiles(reference_frame, num_tiles)
 
-        current_tiles = split_into_tiles(current_frame, num_tiles)
-        reference_tiles = split_into_tiles(reference_frame, num_tiles)
+            mean_color = np.mean(current_frame, axis=(0, 1))
 
-        mean_color = np.mean(current_frame, axis=(0, 1))
+            new_frame = current_frame.copy()
+            tile_height, tile_width = current_tiles[0].shape[:2]
 
-        new_frame = current_frame.copy()
-        tile_height, tile_width = current_tiles[0].shape[:2]
+            tiles_removed = []
 
-        tiles_removed = []
+            for idx, current_tile in enumerate(current_tiles):
+                i = idx // num_tiles
+                j = idx % num_tiles
 
-        for idx, current_tile in enumerate(current_tiles):
-            i = idx // num_tiles
-            j = idx % num_tiles
+                max_corr = -1
+                best_tile = None
 
-            max_corr = -1
-            best_tile = None
+                for di in range(-max_displacement, max_displacement + 1):
+                    for dj in range(-max_displacement, max_displacement + 1):
+                        ni, nj = i + di, j + dj
+                        if 0 <= ni < num_tiles and 0 <= nj < num_tiles:
+                            ref_tile = reference_tiles[ni * num_tiles + nj]
+                            corr = calculate_correlation(current_tile, ref_tile)
+                            if corr > max_corr:
+                                max_corr = corr
+                                best_tile = ref_tile
 
-            for di in range(-max_displacement, max_displacement + 1):
-                for dj in range(-max_displacement, max_displacement + 1):
-                    ni, nj = i + di, j + dj
-                    if 0 <= ni < num_tiles and 0 <= nj < num_tiles:
-                        ref_tile = reference_tiles[ni * num_tiles + nj]
-                        corr = calculate_correlation(current_tile, ref_tile)
-                        if corr > max_corr:
-                            max_corr = corr
-                            best_tile = ref_tile
+                if max_corr > quality:  # Threshold for similarity
+                    new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = mean_color
+                    tiles_removed.append({"i": i, "j": j})
 
-            if max_corr > quality:  # Threshold for similarity
-                new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = mean_color
-                tiles_removed.append({"i": i, "j": j, "mean_color": mean_color.tolist()})
-
-        processed_video.append(new_frame)
-        frames_info.append({"frame_idx": frame_idx, "tiles_removed": tiles_removed})
+            processed_video.append(new_frame)
+            frames_info.append({"frame_idx": frame_idx, "tiles_removed": tiles_removed})
 
     return processed_video, frames_info

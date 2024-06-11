@@ -50,8 +50,12 @@ def open_zip(input_path):
             else:
                 raise Exception('Unsupported file extension found in the ZIP archive.')
 
+    print(f"before sort: {image_path_files}")
+
     # Ordenar los archivos de imagen por nombre de archivo
     image_path_files.sort(key=lambda x: os.path.basename(x))
+
+    print(f" after sort: {image_path_files}")
 
     # Leer las imágenes desde los archivos de imagen
     images = [io.imread(image_path) for image_path in image_path_files]

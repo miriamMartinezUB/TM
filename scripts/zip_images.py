@@ -25,7 +25,7 @@ def zip_images(directory_name, images, json_file_path=None):
             pil_image = Image.fromarray(image)
 
             # Crear un nombre temporal para la imagen
-            temp_image_path = f"image_{i}.png"
+            temp_image_path = f"image_{i:02d}.png"
 
             # Guardar la imagen temporalmente
             pil_image.save(temp_image_path)

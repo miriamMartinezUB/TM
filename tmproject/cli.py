@@ -48,7 +48,7 @@ from scripts.zip_images_gif import zip_images_gif
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
 @click.option("--seek-range", default=1,
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
-@click.option("--gop", default=5,
+@click.option("--gop", default=3,
               help='<value> : nombre d’imatges entre dos frames de referència')
 @click.option("--quality", default=0.99,
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
@@ -69,9 +69,9 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
 
     if input_path:
         if input_path.endswith('.gif'):
-            _images, _json_data_map = extract_frames_from_gif(input_path)
+            _images = extract_frames_from_gif(input_path)
         elif input_path.endswith('.avi') or input_path.endswith('.mp4') or input_path.endswith('.mpeg'):
-            _images, _json_data_map = extract_frames_from_video(input_path)
+            _images = extract_frames_from_video(input_path)
         else:
             _images, _json_data_map = open_zip(input_path)
 

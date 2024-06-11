@@ -14,26 +14,28 @@ def rebuild_video(gop, num_tiles, frames_info, processed_video):
     :rtype: list[numpy.ndarray]
     """
     rebuilt_video = []
+    reference_frame = []
+
     for frame_idx, frame_info in enumerate(frames_info):
         if frame_idx % gop == 0:
             # Si es una imagen de referencia, añadirla sin modificar
-            rebuilt_video.append(processed_video[frame_idx])
-            continue
+            reference_frame = processed_video[frame_idx].copy()
+            rebuilt_video.append(reference_frame)
+        else:
+            current_frame = processed_video[frame_idx].copy()
+            tiles_removed = frame_info["tiles_removed"]
 
-        current_frame = processed_video[frame_idx].copy()
-        tiles_removed = frame_info["tiles_removed"]
+            for tile_removed in tiles_removed:
+                # Identificar la celda que se va a rellenar
+                i, j = tile_removed["i"], tile_removed["j"]
+                tile_height, tile_width = current_frame.shape[0] // num_tiles, current_frame.shape[1] // num_tiles
 
-        for tile_removed in tiles_removed:
-            i, j = tile_removed["i"], tile_removed["j"]
-            tile_height, tile_width = current_frame.shape[0] // num_tiles, current_frame.shape[1] // num_tiles
-            ref_frame_idx = frame_idx - (frame_idx % gop)
-            current_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = processed_video[
-                                                                                                            ref_frame_idx][
-                                                                                                        i * tile_height:(
-                                                                                                                                i + 1) * tile_height,
-                                                                                                        j * tile_width:(
-                                                                                                                               j + 1) * tile_width]
+                # Rellenar la celda con la celda de referencia
+                ref_tile = reference_frame[i * tile_height:(i + 1) * tile_height,
+                           j * tile_width:(j + 1) * tile_width]
 
-        rebuilt_video.append(current_frame)
+                current_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = ref_tile
+
+            rebuilt_video.append(current_frame)
 
     return rebuilt_video
