@@ -50,7 +50,7 @@ from scripts.zip_images_gif import zip_images_gif
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
 @click.option("--gop", default=5,
               help='<value> : nombre d’imatges entre dos frames de referència')
-@click.option("--quality", default=0.95,
+@click.option("--quality", default=0.99,
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
 @click.option('-f', "--filter", 'filters', multiple=True,
               help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
