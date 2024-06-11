@@ -1,14 +1,15 @@
+
 def rebuild_video(gop, num_tiles, frames_info, processed_video):
     """
     Reconstruye el vídeo original a partir de la información de los frames procesados.
 
-    :param gop: Mida del grupo de imágenes (GOP).
+    :param gop: Tamaño del grupo de imágenes (GOP).
     :type gop: int
-    :param num_tiles: Número de tessel·les en cada dimensión.
+    :param num_tiles: Número de teselas en cada dimensión.
     :type num_tiles: int
-    :param frames_info: Información de los frames procesados.
+    :param frames_info: Información de los frames procesados. Cada elemento es un diccionario que contiene el índice del frame y las teselas eliminadas, incluyendo los índices de la tesela actual y la mejor tesela de referencia.
     :type frames_info: list[dict]
-    :param processed_video: Vídeo procesado.
+    :param processed_video: Vídeo procesado como una lista de fotogramas.
     :type processed_video: list[numpy.ndarray]
     :return: Vídeo original reconstruido.
     :rtype: list[numpy.ndarray]
@@ -27,14 +28,16 @@ def rebuild_video(gop, num_tiles, frames_info, processed_video):
 
             for tile_removed in tiles_removed:
                 # Identificar la celda que se va a rellenar
-                i, j = tile_removed["i"], tile_removed["j"]
+                current_i, current_j = tile_removed["current_tile_indices"]
+                best_i, best_j = tile_removed["best_tile_indices"]
                 tile_height, tile_width = current_frame.shape[0] // num_tiles, current_frame.shape[1] // num_tiles
 
-                # Rellenar la celda con la celda de referencia
-                ref_tile = reference_frame[i * tile_height:(i + 1) * tile_height,
-                           j * tile_width:(j + 1) * tile_width]
+                # Rellenar la celda con la mejor celda de referencia
+                best_tile = reference_frame[best_i * tile_height:(best_i + 1) * tile_height,
+                                            best_j * tile_width:(best_j + 1) * tile_width]
 
-                current_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = ref_tile
+                current_frame[current_i * tile_height:(current_i + 1) * tile_height,
+                              current_j * tile_width:(current_j + 1) * tile_width] = best_tile
 
             rebuilt_video.append(current_frame)
 

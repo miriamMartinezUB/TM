@@ -3,23 +3,22 @@ from tqdm import tqdm
 
 from scripts.utils import calculate_correlation, split_into_tiles
 
-
 def process_video(video, gop, num_tiles, max_displacement, quality):
     """
-    Processa un vídeo amb els paràmetres donats.
+    Procesa un vídeo con los parámetros dados.
 
-    :param video: Vídeo d'entrada com una llista de fotogrames.
+    :param video: Vídeo de entrada como una lista de fotogramas.
     :type video: list[numpy.ndarray]
-    :param gop: Mida del grup d'imatges (GOP).
+    :param gop: Tamaño del grupo de imágenes (GOP).
     :type gop: int
-    :param num_tiles: Nombre de tessel·les en cada dimensió.
+    :param num_tiles: Número de teselas en cada dimensión.
     :type num_tiles: int
-    :param max_displacement: Desplaçament màxim per cercar correlacions.
+    :param max_displacement: Desplazamiento máximo para buscar correlaciones.
     :type max_displacement: int
-    :param quality: Qualitat mínima de la correlació per considerar una tessel·la.
+    :param quality: Calidad mínima de la correlación para considerar una tesela.
     :type quality: float
-    :return: Vídeo processat.
-    :rtype: list[numpy.ndarray]
+    :return: Una tupla con el vídeo procesado y la información de los frames.
+    :rtype: tuple(list[numpy.ndarray], list[dict])
     """
     processed_video = []
     reference_frame = []
@@ -51,6 +50,7 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
 
                 max_corr = -1
                 best_tile = None
+                best_tile_indices = (i, j)
 
                 for di in range(-max_displacement, max_displacement + 1):
                     for dj in range(-max_displacement, max_displacement + 1):
@@ -61,10 +61,14 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
                             if corr > max_corr:
                                 max_corr = corr
                                 best_tile = ref_tile
+                                best_tile_indices = (ni, nj)
 
-                if max_corr > quality:  # Threshold for similarity
+                if max_corr > quality:  # Umbral para la similitud
                     new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = mean_color
-                    tiles_removed.append({"i": i, "j": j})
+                    tiles_removed.append({
+                        "current_tile_indices": (i, j),
+                        "best_tile_indices": best_tile_indices
+                    })
 
             processed_video.append(new_frame)
             frames_info.append({"frame_idx": frame_idx, "tiles_removed": tiles_removed})
