@@ -10,6 +10,8 @@ here and create something like a `utils.py` file to store useful functions and c
 by the commands.
 """
 
+import time
+
 import click
 
 from scripts.compression_ratio_info import get_compression_ratio
@@ -69,6 +71,7 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
     _info = None
 
     if input_path:
+        start_time = time.time()
         if input_path.endswith('.gif'):
             _images = extract_frames_from_gif(input_path)
         elif input_path.endswith('.avi') or input_path.endswith('.mp4') or input_path.endswith('.mpeg'):
@@ -80,10 +83,15 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
                 check_video_info_json(path)
                 _info = _json_data_map[f"{path}/{name_json}"]
 
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print(f"Tiempo de procesamiento open zip: {processing_time:.2f} s")
+
     if len(_images) == 0:
         raise Exception('You must import something not empty')
 
     if filters:
+        start_time = time.time()
         filter_list = filters[0].split(',')
         for f in filter_list:
             filter_name, argument = parse_filter(f)
@@ -102,7 +110,13 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
             else:
                 raise Exception(f"We don't support {filter_name} filter")
 
+            end_time = time.time()
+            processing_time = end_time - start_time
+            print(f"Tiempo de procesamiento aplicando filtros: {processing_time:.2f} s")
+            print(f"Tiempo de procesamiento aplicando filtros por frame: {processing_time / len(_images):.2f} s")
+
     if filter_conv:
+        start_time = time.time()
         filter_conv_list = filter_conv[0].split(',')
         for f in filter_conv_list:
             filter_name, argument = parse_filter(f)
@@ -121,29 +135,51 @@ def main(input_path, output_path, fps, n_tiles, seek_range, gop, quality, filter
                 _images = blur_filter(_images)
             else:
                 raise Exception(f"We don't support {filter_name} filter conv")
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print(f"Tiempo de procesamiento aplicando filtros-conv: {processing_time:.2f} s")
+        print(f"Tiempo de procesamiento aplicando filtros-conv por frame: {processing_time / len(_images):.2f} s")
+
     if generate:
         video_from_images(images=_images, fps=fps)
 
     if encode:
+        start_time = time.time()
         _images, _frames_info = process_video(_images, int(gop), n_tiles, seek_range, quality)
         _info = save_info_encode(frames_info=_frames_info, gop=gop, quality=quality, fps=fps, filters=filters,
                                  filter_conv=filter_conv, num_tiles=n_tiles, max_displacement=seek_range,
                                  input_path=input_path)
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print(f"Tiempo de procesamiento encoding: {processing_time:.2f} s")
+        print(f"Tiempo de procesamiento encoding por frame: {processing_time / len(_images):.2f} s")
+
     if decode:
+        start_time = time.time()
         gop = _info["gop"]
         num_tiles = _info["num_tiles"]
         frames_info = _info["frames_info"]
         fps = _info["fps"]
         _images = rebuild_video(gop=gop, num_tiles=num_tiles, frames_info=frames_info, processed_video=_images)
 
+        end_time = time.time()
+        processing_time = (end_time - start_time) * 1000
+        print(f"Tiempo de procesamiento decoding: {processing_time:.2f} ms")
+        print(f"Tiempo de procesamiento decoding por frame: {processing_time / len(_images):.2f} ms")
+
     if output_path:
         if encode:
             show_images_as_video(_images, fps, _cmap)
+        start_time = time.time()
         if input_path.endswith('.gif'):
             zip_images_gif(output_path, _images)
         else:
             zip_images(output_path, _images,
                        json_file_path=f"{get_path(input_path)}/video_info.json" if encode else None)
+        end_time = time.time()
+        processing_time = end_time - start_time
+        print(f"Tiempo de procesamiento ziping: {processing_time:.2f} s")
+
     else:
         show_images_as_video(_images, fps, _cmap)
 
