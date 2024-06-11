@@ -39,6 +39,8 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
         current_tiles = split_into_tiles(current_frame, num_tiles)
         reference_tiles = split_into_tiles(reference_frame, num_tiles)
 
+        mean_color = np.mean(current_frame, axis=(0, 1))
+
         new_frame = current_frame.copy()
         tile_height, tile_width = current_tiles[0].shape[:2]
 
@@ -60,8 +62,7 @@ def process_video(video, gop, num_tiles, max_displacement, quality):
                             best_tile = ref_tile
 
             if max_corr > quality:  # Threshold for similarity
-                new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = np.mean(
-                    current_frame)
+                new_frame[i * tile_height:(i + 1) * tile_height, j * tile_width:(j + 1) * tile_width] = mean_color
 
         processed_video.append(new_frame)
 
