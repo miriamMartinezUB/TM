@@ -1,10 +1,12 @@
 #  Documentació del Projecte de Tecnologies Multimèdia
 
-## Scripts
+En aquest projecte hem implementat un còdec de video, amb diferents opcions 
+d'entrada com filtres, fps, parametres de codificació... Tots aquests es troben 
+al helper de l'applicació on es troben explicats detalladament.
 
+A continuació, possem uns links amb la documentació de  les funcions implementades 
+
+## Implementació del projecte 
 - [Filters](filters.md)
 - [Convolutional filters](filtersconv.md)
-- 
-  [Binarization Filter](scripts/filters/binarization_filter.py)
-    - [Contrast Streaching filter](scripts/filters/contrast_stretching.py)
-- [Filters Conv](scripts/filters_conv)
+- [Utils](utils.md)
