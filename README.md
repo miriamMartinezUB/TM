@@ -144,6 +144,7 @@ pip install -e .
 ## Encode
 
   ```bash
+    
   python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
   
   python -m tmproject.cli -i data/raw/Cubo.zip -e --n-tiles 6 -o data/raw/output.zip

@@ -4,9 +4,9 @@ import shutil
 import time
 
 # Parámetros a probar
-gop_values = [5, 10]
-n_tiles_values = [16, 32, 64]
-seek_range_values = [1, 5, 10]
+gop_values = [3, 4, 5]
+n_tiles_values = [8, 16, 32]
+seek_range_values = [1, 2]
 quality_values = [0.99, 0.995]
 
 # Combinaciones de parámetros
@@ -49,6 +49,6 @@ with open("results.txt", "w") as f:
         f.write(
             f"Combination: gop={combination[0]}, n-tiles={combination[1]}, seek-range={combination[2]}, quality={combination[3]}\n")
         f.write(f"Tiempo de procesamiento: {processing_time:.2f} s")
-        f.write("_______________________________________________________\n\n")
+        f.write("\n_______________________________________________________\n\n")
 
 print("Resultados guardados en results.txt")
