@@ -116,41 +116,44 @@ pip install -e .
 
 ## Demo
 
+## Intro
+
  ```bash
        python -m tmproject.cli -h
+       
+      python -m tmproject.cli -i data/raw/Cubo.zip
+      
+      python -m tmproject.cli -i data/raw/samplegif.gif
+  
+      python -m tmproject.cli -i data/raw/Cubo.zip --fps 50
  ```
 
-  ```bash
-  python -m tmproject.cli -i data/raw/Cubo.zip
-  
-  python -m tmproject.cli -i data/raw/samplegif.gif
-  
-  python -m tmproject.cli -i data/raw/sample.mp4
-  ```
+## Filtros
 
   ```bash
-  python -m tmproject.cli -i data/raw/Cubo.zip --fps 50
-  ```
+  python -m tmproject.cli -i data/raw/sample.mp4 --filter "negative"
+  
+  python -m tmproject.cli -i data/raw/sample.avi --filter "sepia"
 
-  ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative, binarization[150]"
-  ```
-
-  ```bash
+  
   python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative" --filter-conv "blur"
+
   ```
+
+## Encode
 
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
-  ```
-
-  ```bash
-  python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
+  
+  python -m tmproject.cli -i data/raw/Cubo.zip -e --n-tiles 6 -o data/raw/output.zip
   
   python -m tmproject.cli -i data/raw/Cubo.zip -e --filter "negative"  -o data/raw/output_filter.zip
   
   python -m tmproject.cli -i data/raw/Cubo.zip -e --filter "negative" --filter-conv "blur" -o data/raw/output_filter_and_conv.zip
   ```
+
+## Decode
 
   ```bash
   python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip -d
@@ -161,6 +164,8 @@ pip install -e .
   
   python -m tmproject.cli -i data/raw/output_filter_and_conv.zip -d
   ```
+
+## BetterParams
 
   ```bash
   python better_params.py
