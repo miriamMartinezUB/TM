@@ -1,144 +1,145 @@
 Resultados:
+Combination: gop=3, n-tiles=8, seek-range=1, quality=0.99
+Tiempo de procesamiento: 7.24 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=8, seek-range=1, quality=0.995
+Tiempo de procesamiento: 7.34 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=8, seek-range=2, quality=0.99
+Tiempo de procesamiento: 15.86 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=8, seek-range=2, quality=0.995
+Tiempo de procesamiento: 16.44 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=16, seek-range=1, quality=0.99
+Tiempo de procesamiento: 11.92 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=16, seek-range=1, quality=0.995
+Tiempo de procesamiento: 11.93 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=16, seek-range=2, quality=0.99
+Tiempo de procesamiento: 28.38 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=16, seek-range=2, quality=0.995
+Tiempo de procesamiento: 28.60 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=32, seek-range=1, quality=0.99
+Tiempo de procesamiento: 26.15 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=32, seek-range=1, quality=0.995
+Tiempo de procesamiento: 25.79 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=32, seek-range=2, quality=0.99
+Tiempo de procesamiento: 68.78 s
+_______________________________________________________
+
+Combination: gop=3, n-tiles=32, seek-range=2, quality=0.995
+Tiempo de procesamiento: 68.68 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=8, seek-range=1, quality=0.99
+Tiempo de procesamiento: 8.17 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=8, seek-range=1, quality=0.995
+Tiempo de procesamiento: 8.35 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=8, seek-range=2, quality=0.99
+Tiempo de procesamiento: 17.55 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=8, seek-range=2, quality=0.995
+Tiempo de procesamiento: 18.27 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=16, seek-range=1, quality=0.99
+Tiempo de procesamiento: 12.88 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=16, seek-range=1, quality=0.995
+Tiempo de procesamiento: 13.47 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=16, seek-range=2, quality=0.99
+Tiempo de procesamiento: 31.05 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=16, seek-range=2, quality=0.995
+Tiempo de procesamiento: 32.61 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=32, seek-range=1, quality=0.99
+Tiempo de procesamiento: 29.64 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=32, seek-range=1, quality=0.995
+Tiempo de procesamiento: 30.11 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=32, seek-range=2, quality=0.99
+Tiempo de procesamiento: 77.20 s
+_______________________________________________________
+
+Combination: gop=4, n-tiles=32, seek-range=2, quality=0.995
+Tiempo de procesamiento: 77.76 s
+_______________________________________________________
+
+Combination: gop=5, n-tiles=8, seek-range=1, quality=0.99
+Tiempo de procesamiento: 8.90 s
+_______________________________________________________
+
+Combination: gop=5, n-tiles=8, seek-range=1, quality=0.995
+Tiempo de procesamiento: 8.95 s
+_______________________________________________________
+
+Combination: gop=5, n-tiles=8, seek-range=2, quality=0.99
+Tiempo de procesamiento: 19.43 s
+_______________________________________________________
+
+Combination: gop=5, n-tiles=8, seek-range=2, quality=0.995
+Tiempo de procesamiento: 19.59 s
+_______________________________________________________
+
 Combination: gop=5, n-tiles=16, seek-range=1, quality=0.99
-Tiempo de procesamiento: 14.12 s
+Tiempo de procesamiento: 13.97 s
 _______________________________________________________
 
 Combination: gop=5, n-tiles=16, seek-range=1, quality=0.995
-Tiempo de procesamiento: 14.26 s
+Tiempo de procesamiento: 13.81 s
 _______________________________________________________
 
-Combination: gop=5, n-tiles=16, seek-range=5, quality=0.99
-Tiempo de procesamiento: 127.87 s
+Combination: gop=5, n-tiles=16, seek-range=2, quality=0.99
+Tiempo de procesamiento: 34.47 s
 _______________________________________________________
 
-Combination: gop=5, n-tiles=16, seek-range=5, quality=0.995
-Tiempo de procesamiento: 127.85 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=16, seek-range=10, quality=0.99
-Tiempo de procesamiento: 306.95 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=16, seek-range=10, quality=0.995
-Tiempo de procesamiento: 314.41 s
+Combination: gop=5, n-tiles=16, seek-range=2, quality=0.995
+Tiempo de procesamiento: 34.96 s
 _______________________________________________________
 
 Combination: gop=5, n-tiles=32, seek-range=1, quality=0.99
-Tiempo de procesamiento: 31.52 s
+Tiempo de procesamiento: 32.11 s
 _______________________________________________________
 
 Combination: gop=5, n-tiles=32, seek-range=1, quality=0.995
-Tiempo de procesamiento: 31.42 s
+Tiempo de procesamiento: 31.50 s
 _______________________________________________________
 
-Combination: gop=5, n-tiles=32, seek-range=5, quality=0.99
-Tiempo de procesamiento: 356.17 s
+Combination: gop=5, n-tiles=32, seek-range=2, quality=0.99
+Tiempo de procesamiento: 82.82 s
 _______________________________________________________
 
-Combination: gop=5, n-tiles=32, seek-range=5, quality=0.995
-Tiempo de procesamiento: 350.23 s
+Combination: gop=5, n-tiles=32, seek-range=2, quality=0.995
+Tiempo de procesamiento: 82.56 s
 _______________________________________________________
 
-Combination: gop=5, n-tiles=32, seek-range=10, quality=0.99
-Tiempo de procesamiento: 1052.88 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=32, seek-range=10, quality=0.995
-Tiempo de procesamiento: 1072.06 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=1, quality=0.99
-Tiempo de procesamiento: 97.81 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=1, quality=0.995
-Tiempo de procesamiento: 98.94 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=5, quality=0.99
-Tiempo de procesamiento: 1202.77 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=5, quality=0.995
-Tiempo de procesamiento: 1203.71 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=10, quality=0.99
-Tiempo de procesamiento: 4002.04 s
-_______________________________________________________
-
-Combination: gop=5, n-tiles=64, seek-range=10, quality=0.995
-Tiempo de procesamiento: 4426.24 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=1, quality=0.99
-Tiempo de procesamiento: 15.11 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=1, quality=0.995
-Tiempo de procesamiento: 15.02 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=5, quality=0.99
-Tiempo de procesamiento: 143.59 s
-______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=5, quality=0.995
-Tiempo de procesamiento: 146.60 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=10, quality=0.99
-Tiempo de procesamiento: 358.60 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=16, seek-range=10, quality=0.995
-Tiempo de procesamiento: 342.50 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=1, quality=0.99
-Tiempo de procesamiento: 34.66 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=1, quality=0.995
-Tiempo de procesamiento: 35.51 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=5, quality=0.99
-Tiempo de procesamiento: 395.83 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=5, quality=0.995
-Tiempo de procesamiento: 396.57 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=10, quality=0.99
-Tiempo de procesamiento: 1223.26
-______________________________________________________
-
-Combination: gop=10, n-tiles=32, seek-range=10, quality=0.995
-Tiempo de procesamiento: 2179.83 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=1, quality=0.99
-Tiempo de procesamiento: 52.67 s
-______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=1, quality=0.995
-Tiempo de procesamiento: 0.09 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=5, quality=0.99
-Tiempo de procesamiento: 0.13 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=5, quality=0.995
-Tiempo de procesamiento: 0.15 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=10, quality=0.99
-Tiempo de procesamiento: 4.77 s
-_______________________________________________________
-
-Combination: gop=10, n-tiles=64, seek-range=10, quality=0.995
-Tiempo de procesamiento: 0.09 s
-_______________________________________________________
