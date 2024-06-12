@@ -46,14 +46,14 @@ from scripts.zip_images_gif import zip_images_gif
                    'informació necessària per la descodificació.')
 @click.option("--fps", default=30,
               help='<value> : nombre d’imatges per segon amb les quals és reproduirà el vídeo.')
-@click.option("--n-tiles", default=12,
+@click.option("--n-tiles", default=16,
               help='<value,...> : nombre de tessel·les en la qual dividir la imatge. Es poden indicar diferents '
                    'valors per l’eix vertical i horitzontal, o bé especificar la mida de les tessel·les en píxels.')
 @click.option("--seek-range", default=1,
               help='<value> : desplaçament màxim en la cerca de tessel·les coincidents.')
 @click.option("--gop", default=3,
               help='<value> : nombre d’imatges entre dos frames de referència')
-@click.option("--quality", default=0.99,
+@click.option("--quality", default=0.995,
               help='<value> : factor de qualitat que determinarà quan dos tessel·les és consideren coincidents.')
 @click.option('-f', "--filter", 'filters', multiple=True,
               help='Especifica els filtres a aplicar a les imatges. El format és "nom_del_filtr[argument]".')
