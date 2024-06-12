@@ -113,3 +113,56 @@ pip install -e .
   python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
   python -m tmproject.cli -i data/raw/output.zip -d 
   ```
+
+## Demo
+
+ ```bash
+       python -m tmproject.cli -h
+ ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip
+  
+  python -m tmproject.cli -i data/raw/samplegif.gif
+  
+  python -m tmproject.cli -i data/raw/sample.mp4
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --fps 50
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative, binarization[150]"
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip --filter "negative" --filter-conv "blur"
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip
+  
+  python -m tmproject.cli -i data/raw/Cubo.zip -e --filter "negative"  -o data/raw/output_filter.zip
+  
+  python -m tmproject.cli -i data/raw/Cubo.zip -e --filter "negative" --filter-conv "blur" -o data/raw/output_filter_and_conv.zip
+  ```
+
+  ```bash
+  python -m tmproject.cli -i data/raw/Cubo.zip -e -o data/raw/output.zip -d
+  
+  python -m tmproject.cli -i data/raw/output.zip -d
+  
+  python -m tmproject.cli -i data/raw/output_filter.zip -d
+  
+  python -m tmproject.cli -i data/raw/output_filter_and_conv.zip -d
+  ```
+
+  ```bash
+  python better_params.py
+
+  ```
